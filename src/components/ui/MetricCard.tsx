@@ -36,14 +36,14 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     nominal: 'border-l-emerald-500',
     warning: 'border-l-amber-500',
     critical: 'border-l-crimson-500',
-    cyan: 'border-l-cyan-500',
-    neutral: 'border-l-navy-600',
+    cyan: 'border-l-lime-500',
+    neutral: 'border-l-obsidian-950/30',
   };
 
   const deltaColors = {
-    up: 'text-emerald-400 bg-emerald-950/40 border-emerald-500/20',
-    down: 'text-crimson-400 bg-crimson-950/40 border-crimson-500/20',
-    neutral: 'text-slate-400 bg-navy-800/40 border-navy-700/40',
+    up: 'text-emerald-700 bg-emerald-100/80 border-emerald-600/20',
+    down: 'text-crimson-700 bg-crimson-100/80 border-crimson-600/20',
+    neutral: 'text-stone-600 bg-sand-100 border-obsidian-950/15',
   };
 
   return (
@@ -53,49 +53,49 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       className={cn(
         'panel-surface p-4 rounded-panel border-l-2 relative overflow-hidden transition-all duration-200',
         statusColors[status],
-        interactive && 'cursor-pointer hover:border-cyan-500/40 hover:shadow-glow-cyan-sm',
+        interactive && 'cursor-pointer hover:border-obsidian-950/30 hover:shadow-editorial-hover',
         className
       )}
     >
       <div className="flex items-start justify-between gap-3 mb-2">
-        <span className="text-2xs font-mono uppercase tracking-widest text-slate-400">
+        <span className="text-2xs font-mono uppercase tracking-widest text-stone-500">
           {label}
         </span>
         {icon && (
-          <div className="p-1.5 rounded-subtle bg-navy-800/80 text-slate-300 border border-navy-700/60 shrink-0">
+          <div className="p-1.5 rounded-subtle bg-sand-100 text-obsidian-950 border border-obsidian-950/10 shrink-0">
             {icon}
           </div>
         )}
       </div>
 
       <div className="flex items-baseline gap-1.5">
-        <span className="font-heading text-2xl font-bold tracking-tight text-white font-telemetry">
+        <span className="font-heading text-2xl font-bold tracking-tight text-obsidian-950 font-telemetry">
           {value}
         </span>
         {unit && (
-          <span className="text-xs font-mono text-slate-400 tracking-wider uppercase">
+          <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">
             {unit}
           </span>
         )}
       </div>
 
       {(delta || subtext) && (
-        <div className="mt-2.5 pt-2 border-t border-navy-800/60 flex items-center justify-between text-2xs">
+        <div className="mt-2.5 flex items-center justify-between gap-2 text-2xs">
           {delta && (
             <span
               className={cn(
-                'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border font-mono font-medium',
+                'inline-flex items-center gap-1 px-1.5 py-0.5 rounded border font-mono font-medium',
                 deltaColors[delta.trend]
               )}
             >
               {delta.trend === 'up' && <ArrowUpRight className="w-3 h-3" />}
               {delta.trend === 'down' && <ArrowDownRight className="w-3 h-3" />}
               {delta.trend === 'neutral' && <Minus className="w-3 h-3" />}
-              <span>{delta.value}</span>
-              {delta.label && <span className="text-slate-400 ml-1">{delta.label}</span>}
+              {delta.value}
+              {delta.label && <span className="opacity-75">{delta.label}</span>}
             </span>
           )}
-          {subtext && <span className="text-slate-500 font-mono text-2xs truncate">{subtext}</span>}
+          {subtext && <span className="text-stone-500 font-mono truncate">{subtext}</span>}
         </div>
       )}
     </motion.div>

@@ -1,140 +1,212 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  AlertTriangle,
-  Radio,
-  CheckCircle2,
-  ArrowRight,
-  Flame,
-} from 'lucide-react';
-import {
-  DecisionCheckpoint,
-  DecisionOption,
-} from '../types/simulation';
-import { Badge } from '@/components/ui/Badge';
+import { AlertTriangle, Radio, CheckCircle2, ArrowRight, Flame, Compass } from 'lucide-react';
+import { DecisionCheckpoint, DecisionOption } from '../types/simulation';
+import { Button } from '@/components/ui/Button';
+import { cn } from '@/utils/cn';
 
 export interface DecisionCheckpointModalProps {
   checkpoint: DecisionCheckpoint | null;
   onSelectDecision: (optionId: string, branchId: string) => void;
+  onPreviewBranch?: (branchId: string | null) => void;
 }
 
 export const DecisionCheckpointModal: React.FC<DecisionCheckpointModalProps> = ({
   checkpoint,
   onSelectDecision,
+  onPreviewBranch,
 }) => {
+  const [selectedOption, setSelectedOption] = useState<DecisionOption | null>(null);
+
+  useEffect(() => {
+    if (checkpoint && checkpoint.options.length > 0) {
+      setSelectedOption(checkpoint.options[0]);
+      onPreviewBranch?.(checkpoint.options[0].branchId);
+    } else {
+      setSelectedOption(null);
+      onPreviewBranch?.(null);
+    }
+  }, [checkpoint, onPreviewBranch]);
+
   if (!checkpoint) return null;
 
-  const getOptionBadge = (type: DecisionOption['optionType']) => {
+  const getOptionMeta = (type: DecisionOption['optionType']) => {
     switch (type) {
       case 'RECOMMENDED_STANDARD':
-        return (
-          <span className="px-2 py-0.5 rounded text-2xs font-mono font-bold bg-emerald-950/70 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-            STANDARD SAFETY PRACTICE
-          </span>
-        );
+        return {
+          label: 'STANDARD SAFETY PRACTICE',
+          icon: CheckCircle2,
+          pillClass: 'bg-[#88B04B]/20 text-[#3F5D14] border-[#88B04B]/45',
+        };
       case 'HISTORICAL_ACTION':
-        return (
-          <span className="px-2 py-0.5 rounded text-2xs font-mono font-bold bg-crimson-950/70 text-crimson-300 border border-crimson-500/40 flex items-center gap-1">
-            <Flame className="w-3 h-3 text-crimson-400" />
-            HISTORICAL ACTION (2002)
-          </span>
-        );
+        return {
+          label: 'HISTORICAL ACTION',
+          icon: Flame,
+          pillClass: 'bg-crimson-100 text-crimson-700 border-crimson-500/30',
+        };
       case 'TACTICAL_ALTERNATIVE':
-        return (
-          <span className="px-2 py-0.5 rounded text-2xs font-mono font-bold bg-aviation-950/70 text-aviation-300 border border-aviation-500/30 flex items-center gap-1">
-            <Radio className="w-3 h-3 text-aviation-400" />
-            TACTICAL ALTERNATIVE
-          </span>
-        );
+        return {
+          label: 'TACTICAL ALTERNATIVE',
+          icon: Compass,
+          pillClass: 'bg-sand-200 text-obsidian-950 border-obsidian-950/20',
+        };
     }
+  };
+
+  const handleConfirm = () => {
+    if (!selectedOption) return;
+    onPreviewBranch?.(null);
+    onSelectDecision(selectedOption.id, selectedOption.branchId);
   };
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md animate-fade-in">
+      <div className="fixed inset-0 z-50 flex items-center justify-end p-4 sm:p-6 bg-obsidian-950/60">
         <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 14 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.94, y: 14 }}
-          transition={{ duration: 0.18 }}
-          className="w-full max-w-2xl rounded-panel panel-surface-elevated border border-amber-500/50 p-6 shadow-2xl relative overflow-hidden"
+          initial={{ opacity: 0, x: 28 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 28 }}
+          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-2xl rounded-card bg-sand-50 text-obsidian-950 border border-obsidian-950/20 shadow-editorial-dark overflow-hidden flex flex-col max-h-[92vh]"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="decision-checkpoint-title"
         >
-          {/* Header Warning Bar */}
-          <div className="flex items-center justify-between pb-3.5 border-b border-navy-700/80">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-panel bg-amber-950 border border-amber-500/50 flex items-center justify-center text-amber-400 shadow-glow-amber">
-                <AlertTriangle className="w-4 h-4 animate-pulse" />
+          {/* Solid Command Header */}
+          <div className="px-5 py-3 bg-obsidian-950 text-sand-50 flex items-center justify-between gap-4 shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-subtle bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400">
+                <AlertTriangle className="w-4 h-4" />
               </div>
               <div>
-                <span className="font-heading font-bold text-sm text-white tracking-wide">
-                  DECISION CHECKPOINT REACHED
-                </span>
-                <p className="text-2xs font-mono text-amber-300">{checkpoint.timestampFormatted}</p>
+                <h2 id="decision-checkpoint-title" className="font-heading text-sm font-bold tracking-wide uppercase">
+                  Decision Checkpoint Reached
+                </h2>
+                <p className="text-2xs font-mono text-[#A8C96D]">{checkpoint.timestampFormatted}</p>
               </div>
             </div>
 
-            <Badge variant="warning" size="sm" dot pulse>
-              PLAYBACK PAUSED
-            </Badge>
+            <span className="px-2.5 py-1 rounded-subtle bg-obsidian-850 border border-white/15 text-2xs font-mono text-amber-300 uppercase">
+              Playback Paused
+            </span>
           </div>
 
-          {/* Context Alert Banner */}
-          <div className="my-4 p-3 rounded bg-amber-950/40 border border-amber-500/30 text-amber-200 text-xs font-mono flex items-center gap-2">
-            <Radio className="w-4 h-4 text-amber-400 shrink-0" />
-            <span className="font-semibold">{checkpoint.contextAlert}</span>
-          </div>
+          {/* Scrollable Command Content */}
+          <div className="p-5 overflow-y-auto space-y-4">
+            {/* Assigned Role & Situation */}
+            <div className="space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-obsidian-950/12">
+                <div>
+                  <span className="block text-[10px] font-mono uppercase tracking-widest text-stone-500">
+                    Assigned Role
+                  </span>
+                  <strong className="font-heading text-base font-bold text-obsidian-950">
+                    {checkpoint.userRole}
+                  </strong>
+                </div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-subtle bg-amber-100 border border-amber-600/30 text-2xs font-mono font-semibold text-amber-900">
+                  <Radio className="w-3.5 h-3.5 text-amber-700" />
+                  {checkpoint.contextAlert}
+                </span>
+              </div>
 
-          {/* Situation & Role Brief */}
-          <div className="space-y-2 text-xs">
-            <div className="text-2xs font-mono text-slate-400 uppercase tracking-wider">
-              Assigned Role: <strong className="text-white">{checkpoint.userRole}</strong>
+              <div>
+                <span className="block text-[10px] font-mono uppercase tracking-widest text-stone-500 mb-1">
+                  Situation
+                </span>
+                <div className="p-3.5 rounded-panel bg-sand-25 border border-obsidian-950/12 text-xs text-obsidian-950 leading-relaxed whitespace-pre-line font-sans">
+                  {checkpoint.situationBrief}
+                </div>
+              </div>
             </div>
-            <p className="text-slate-200 leading-relaxed whitespace-pre-line bg-navy-900/60 p-3.5 rounded border border-navy-800">
-              {checkpoint.situationBrief}
-            </p>
+
+            {/* Available Actions */}
+            <div className="space-y-2">
+              <span className="block text-[10px] font-mono uppercase tracking-widest text-stone-500">
+                Available Actions (Select to preview 3D trajectory, then execute)
+              </span>
+
+              <div className="space-y-2">
+                {checkpoint.options.map((opt) => {
+                  const meta = getOptionMeta(opt.optionType);
+                  const Icon = meta.icon;
+                  const isSelected = selectedOption?.id === opt.id;
+
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onMouseEnter={() => onPreviewBranch?.(opt.branchId)}
+                      onFocus={() => onPreviewBranch?.(opt.branchId)}
+                      onClick={() => {
+                        setSelectedOption(opt);
+                        onPreviewBranch?.(opt.branchId);
+                      }}
+                      className={cn(
+                        'w-full text-left p-3.5 rounded-panel border transition-all duration-150 flex flex-col gap-1.5',
+                        isSelected
+                          ? 'bg-obsidian-950 text-sand-50 border-obsidian-950 shadow-editorial'
+                          : 'bg-sand-25 text-obsidian-950 border-obsidian-950/15 hover:border-obsidian-950/40'
+                      )}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <span className="font-heading font-bold text-sm">{opt.title}</span>
+                        <span
+                          className={cn(
+                            'px-2 py-0.5 rounded-subtle border text-[10px] font-mono font-semibold inline-flex items-center gap-1 w-fit shrink-0',
+                            isSelected
+                              ? 'bg-[#88B04B] text-obsidian-950 border-[#88B04B]'
+                              : meta.pillClass
+                          )}
+                        >
+                          <Icon className="w-3 h-3" />
+                          {meta.label}
+                        </span>
+                      </div>
+
+                      <p
+                        className={cn(
+                          'text-xs leading-relaxed',
+                          isSelected ? 'text-stone-300' : 'text-stone-600'
+                        )}
+                      >
+                        {opt.description}
+                      </p>
+
+                      <div
+                        className={cn(
+                          'text-[11px] font-mono pt-1 border-t',
+                          isSelected
+                            ? 'border-white/10 text-[#A8C96D]'
+                            : 'border-obsidian-950/10 text-stone-500'
+                        )}
+                      >
+                        Outcome Preview: {opt.consequenceSummary}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-          {/* Decision Options Cards */}
-          <div className="mt-4 space-y-2.5">
-            <span className="text-2xs font-mono uppercase text-slate-400 tracking-wider block">
-              Select Your Action to Continue Simulation Branch:
+          {/* Solid Execution Footer */}
+          <div className="px-5 py-3 bg-sand-100 border-t border-obsidian-950/12 flex items-center justify-between gap-4 shrink-0">
+            <span className="text-2xs font-mono text-stone-500 hidden sm:inline">
+              Predefined deterministic branch • Hovering previews 3D vector
             </span>
 
-            <div className="space-y-2">
-              {checkpoint.options.map((opt) => (
-                <div
-                  key={opt.id}
-                  onClick={() => onSelectDecision(opt.id, opt.branchId)}
-                  className="p-3.5 rounded-panel bg-navy-900/90 border border-navy-700 hover:border-cyan-400 hover:bg-navy-850 cursor-pointer transition-all duration-150 group flex flex-col justify-between gap-2"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span className="font-heading font-semibold text-xs text-white group-hover:text-cyan-300 transition-colors">
-                      {opt.title}
-                    </span>
-                    {getOptionBadge(opt.optionType)}
-                  </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {opt.description}
-                  </p>
-
-                  <div className="pt-2 border-t border-navy-800/80 flex items-center justify-between text-2xs font-mono text-slate-400">
-                    <span className="truncate">
-                      Consequence: <strong className="text-slate-300">{opt.consequenceSummary}</strong>
-                    </span>
-                    <span className="text-cyan-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 shrink-0 font-bold">
-                      Execute <ArrowRight className="w-3 h-3" />
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Footer Disclaimer */}
-          <div className="mt-4 pt-3 border-t border-navy-800 text-center text-2xs font-mono text-slate-500">
-            ILLUSTRATIVE SCENARIO CHOICES • NOT OPERATIONAL AVIATION ADVICE
+            <Button
+              variant="primary"
+              size="md"
+              magnetic
+              disabled={!selectedOption}
+              onClick={handleConfirm}
+              rightIcon={<ArrowRight className="w-4 h-4 shrink-0" />}
+              className="bg-[#88B04B] text-obsidian-950 border-[#88B04B] hover:bg-[#769B3D] font-semibold ml-auto whitespace-nowrap shrink-0"
+            >
+              Execute Selected Action
+            </Button>
           </div>
         </motion.div>
       </div>

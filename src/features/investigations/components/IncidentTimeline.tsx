@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Clock,
-  ChevronDown,
-  ChevronUp,
-  FileText,
-} from 'lucide-react';
+import { Clock, ChevronDown, ChevronUp, FileText, ExternalLink } from 'lucide-react';
 import {
   IncidentTimelineEvent,
   TimelineEventCategory,
@@ -17,87 +12,71 @@ import { cn } from '@/utils/cn';
 
 export interface IncidentTimelineProps {
   events: IncidentTimelineEvent[];
+  onSelectEvent?: (event: IncidentTimelineEvent) => void;
 }
 
-export const IncidentTimeline: React.FC<IncidentTimelineProps> = ({ events }) => {
+export const IncidentTimeline: React.FC<IncidentTimelineProps> = ({ events, onSelectEvent }) => {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(
-    new Set(events.slice(0, 2).map((e) => e.id)) // Expand first two by default
+    new Set(events.slice(0, 2).map((e) => e.id))
   );
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
 
   const toggleExpand = (id: string) => {
     setExpandedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   };
 
-  const handleExpandAll = () => {
-    setExpandedIds(new Set(events.map((e) => e.id)));
-  };
-
-  const handleCollapseAll = () => {
-    setExpandedIds(new Set());
-  };
-
-  const categories: TimelineEventCategory[] = Array.from(
-    new Set(events.map((e) => e.category))
-  );
-
+  const categories: TimelineEventCategory[] = Array.from(new Set(events.map((e) => e.category)));
   const filteredEvents =
-    selectedCategory === 'ALL'
-      ? events
-      : events.filter((e) => e.category === selectedCategory);
+    selectedCategory === 'ALL' ? events : events.filter((e) => e.category === selectedCategory);
 
   const getCategoryBadgeClass = (category: TimelineEventCategory) => {
     switch (category) {
       case 'ATC_COMMUNICATION':
-        return 'text-aviation-300 bg-aviation-950/60 border-aviation-500/30';
+        return 'text-obsidian-950 bg-sand-100 border-obsidian-950/15';
       case 'FLIGHT_CREW_ACTION':
-        return 'text-amber-300 bg-amber-950/60 border-amber-500/30';
+        return 'text-amber-700 bg-amber-100/80 border-amber-600/25';
       case 'SYSTEM_ALERT':
-        return 'text-cyan-300 bg-cyan-950/60 border-cyan-500/30';
+        return 'text-obsidian-950 bg-lime-400/50 border-lime-600/30';
       case 'COLLISION_EVENT':
-        return 'text-crimson-300 bg-crimson-950/60 border-crimson-500/40';
+        return 'text-crimson-700 bg-crimson-100/80 border-crimson-600/30';
       default:
-        return 'text-slate-300 bg-navy-900 border-navy-700';
+        return 'text-stone-600 bg-sand-100 border-obsidian-950/15';
     }
   };
 
   return (
     <div className="space-y-4">
       {/* Timeline Controls Header */}
-      <div className="p-4 rounded-panel panel-surface border border-navy-700/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="p-4 rounded-panel panel-surface flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="font-heading text-sm font-semibold text-white tracking-wide">
+            <h3 className="font-heading text-sm font-semibold text-obsidian-950">
               Reconstructed Sequence of Events
             </h3>
             <Badge variant="mono" size="sm">
-              {filteredEvents.length} Events Recorded
+              {filteredEvents.length} Events
             </Badge>
           </div>
-          <p className="text-2xs font-mono text-slate-400 mt-0.5">
+          <p className="text-2xs font-mono text-stone-500 mt-0.5">
             Chronological reconstruction derived from CVR, FDR, and ATC radar recordings.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {/* Category Filter Pills */}
           <div className="flex items-center gap-1 overflow-x-auto py-1">
             <button
               type="button"
               onClick={() => setSelectedCategory('ALL')}
               className={cn(
-                'px-2 py-1 rounded text-2xs font-mono transition-colors select-none',
+                'px-2.5 py-1 rounded-subtle text-2xs font-mono transition-colors select-none border',
                 selectedCategory === 'ALL'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium'
-                  : 'bg-navy-900 text-slate-400 border border-navy-800 hover:text-slate-200'
+                  ? 'bg-obsidian-950 text-lime-400 border-obsidian-950 font-medium'
+                  : 'bg-sand-100 text-stone-600 border-obsidian-950/10 hover:text-obsidian-950'
               )}
             >
               All ({events.length})
@@ -108,10 +87,10 @@ export const IncidentTimeline: React.FC<IncidentTimelineProps> = ({ events }) =>
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
                 className={cn(
-                  'px-2 py-1 rounded text-2xs font-mono transition-colors select-none whitespace-nowrap',
+                  'px-2.5 py-1 rounded-subtle text-2xs font-mono transition-colors select-none whitespace-nowrap border',
                   selectedCategory === cat
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium'
-                    : 'bg-navy-900 text-slate-400 border border-navy-800 hover:text-slate-200'
+                    ? 'bg-obsidian-950 text-lime-400 border-obsidian-950 font-medium'
+                    : 'bg-sand-100 text-stone-600 border-obsidian-950/10 hover:text-obsidian-950'
                 )}
               >
                 {cat.replace('_', ' ')}
@@ -119,158 +98,131 @@ export const IncidentTimeline: React.FC<IncidentTimelineProps> = ({ events }) =>
             ))}
           </div>
 
-          {/* Expand / Collapse All */}
-          <div className="flex items-center gap-1.5 pl-2 border-l border-navy-800">
-            <Button variant="ghost" size="xs" onClick={handleExpandAll}>
+          <div className="flex items-center gap-1 border-l border-obsidian-950/15 pl-2">
+            <Button variant="ghost" size="xs" onClick={() => setExpandedIds(new Set(events.map((e) => e.id)))}>
               Expand All
             </Button>
-            <Button variant="ghost" size="xs" onClick={handleCollapseAll}>
-              Collapse All
+            <Button variant="ghost" size="xs" onClick={() => setExpandedIds(new Set())}>
+              Collapse
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Vertical Timeline Tree */}
-      <div className="relative pl-6 sm:pl-8 space-y-4 before:absolute before:left-2 sm:before:left-3 before:top-3 before:bottom-3 before:w-px before:bg-navy-700/80">
-        {filteredEvents.map((evt) => {
-          const isExpanded = expandedIds.has(evt.id);
+      {/* Vertical Timeline Stream */}
+      <div className="relative pl-6 sm:pl-8 space-y-3 before:absolute before:left-2.5 sm:before:left-3.5 before:top-3 before:bottom-3 before:w-px before:bg-obsidian-950/15">
+        {filteredEvents.map((event) => {
+          const isExpanded = expandedIds.has(event.id);
+          const isCritical = event.category === 'COLLISION_EVENT' || event.category === 'SYSTEM_ALERT';
 
           return (
-            <div key={evt.id} className="relative group">
-              {/* Timeline Node Bullet */}
+            <div key={event.id} className="relative">
+              {/* Timeline Node Marker */}
               <div
                 className={cn(
-                  'absolute -left-6 sm:-left-8 top-3.5 w-2.5 h-2.5 rounded-full border transition-all duration-150',
-                  evt.category === 'COLLISION_EVENT'
-                    ? 'bg-crimson-500 border-crimson-400 shadow-glow-crimson'
-                    : isExpanded
-                    ? 'bg-cyan-400 border-cyan-300 shadow-glow-cyan-sm'
-                    : 'bg-navy-800 border-navy-600 group-hover:border-cyan-400'
+                  'absolute -left-6 sm:-left-8 top-5 w-3 h-3 rounded-full border-2 border-sand-50 z-10',
+                  event.category === 'COLLISION_EVENT'
+                    ? 'bg-crimson-500'
+                    : isCritical
+                    ? 'bg-lime-500'
+                    : 'bg-obsidian-950'
                 )}
               />
 
-              {/* Event Card Container */}
-              <div
-                className={cn(
-                  'rounded-panel panel-surface border transition-all duration-200 overflow-hidden',
-                  isExpanded
-                    ? 'border-cyan-500/40 bg-navy-850/90'
-                    : 'border-navy-700/70 hover:border-navy-600/90 bg-navy-900/60'
-                )}
-              >
-                {/* Clickable Header Bar */}
-                <div
-                  onClick={() => toggleExpand(evt.id)}
-                  className="px-4 py-3 flex items-start sm:items-center justify-between gap-3 cursor-pointer select-none"
+              <div className="rounded-panel panel-surface overflow-hidden hover:border-obsidian-950/25 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => {
+                    toggleExpand(event.id);
+                    onSelectEvent?.(event);
+                  }}
+                  className="w-full p-4 flex items-start justify-between gap-3 text-left"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 min-w-0">
-                    {/* Timestamp */}
-                    <div className="flex items-center gap-1.5 font-telemetry text-xs font-semibold text-cyan-400 shrink-0">
-                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>{evt.timestamp || 'Timestamp Not Available'}</span>
-                    </div>
-
-                    {/* Title */}
-                    <span className="font-heading font-semibold text-sm text-white truncate">
-                      {evt.title}
-                    </span>
-
-                    {/* Aircraft Involved Tag */}
-                    {evt.aircraftInvolved && (
-                      <span className="text-2xs font-mono text-slate-300 bg-navy-900 border border-navy-700 px-1.5 py-0.5 rounded shrink-0">
-                        {evt.aircraftInvolved}
+                  <div className="space-y-1.5 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-obsidian-950 bg-sand-100 px-2 py-0.5 rounded-subtle border border-obsidian-950/10">
+                        <Clock className="w-3 h-3 text-stone-500" />
+                        {event.timestamp}
                       </span>
-                    )}
-                  </div>
 
-                  {/* Badges & Chevron */}
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span
-                      className={cn(
-                        'hidden md:inline-flex px-1.5 py-0.5 rounded text-2xs font-mono border uppercase tracking-wider',
-                        getCategoryBadgeClass(evt.category)
-                      )}
-                    >
-                      {evt.category.replace('_', ' ')}
-                    </span>
+                      <span
+                        className={cn(
+                          'px-2 py-0.5 rounded-subtle border text-2xs font-mono uppercase',
+                          getCategoryBadgeClass(event.category)
+                        )}
+                      >
+                        {event.category.replace(/_/g, ' ')}
+                      </span>
 
-                    <ProvenanceBadge provenance={evt.provenance} size="sm" />
+                      <ProvenanceBadge provenance={event.provenance} size="sm" />
 
-                    <div className="p-1 rounded text-slate-400 group-hover:text-slate-200">
-                      {isExpanded ? (
-                        <ChevronUp className="w-4 h-4" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4" />
+                      {event.aircraftInvolved && (
+                        <span className="text-2xs font-mono text-stone-500">
+                          [{event.aircraftInvolved}]
+                        </span>
                       )}
                     </div>
-                  </div>
-                </div>
 
-                {/* Expandable Body */}
-                <AnimatePresence>
+                    <h4 className="font-heading font-semibold text-sm text-obsidian-950 leading-snug">
+                      {event.title}
+                    </h4>
+                  </div>
+
+                  <span className="p-1 text-stone-500 shrink-0">
+                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
                   {isExpanded && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.18 }}
-                      className="px-4 pb-4 pt-1 border-t border-navy-800/80 space-y-3 text-xs"
+                      className="overflow-hidden"
                     >
-                      <p className="text-slate-200 leading-relaxed">
-                        {evt.description}
-                      </p>
+                      <div className="px-4 pb-4 pt-1 border-t border-obsidian-950/10 space-y-3 text-xs">
+                        <p className="text-stone-600 leading-relaxed pt-2">{event.description}</p>
 
-                      {/* Flight Parameters Readout if available */}
-                      {evt.flightParameters && (
-                        <div className="p-2.5 rounded bg-navy-950/80 border border-navy-800 grid grid-cols-2 sm:grid-cols-4 gap-2 font-telemetry text-2xs">
-                          {evt.flightParameters.altitude && (
-                            <div>
-                              <span className="text-slate-500 block">Altitude:</span>
-                              <strong className="text-cyan-300">
-                                {evt.flightParameters.altitude}
-                              </strong>
-                            </div>
-                          )}
-                          {evt.flightParameters.airspeed && (
-                            <div>
-                              <span className="text-slate-500 block">Airspeed:</span>
-                              <strong className="text-slate-200">
-                                {evt.flightParameters.airspeed}
-                              </strong>
-                            </div>
-                          )}
-                          {evt.flightParameters.heading && (
-                            <div>
-                              <span className="text-slate-500 block">Heading:</span>
-                              <strong className="text-slate-200">
-                                {evt.flightParameters.heading}
-                              </strong>
-                            </div>
-                          )}
-                          {evt.flightParameters.verticalSpeed && (
-                            <div>
-                              <span className="text-slate-500 block">Vertical Speed:</span>
-                              <strong className="text-amber-400">
-                                {evt.flightParameters.verticalSpeed}
-                              </strong>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                        {event.flightParameters && (
+                          <div className="flex flex-wrap gap-3 p-2.5 rounded-subtle bg-sand-100/70 border border-obsidian-950/10 font-mono text-2xs text-obsidian-950">
+                            {event.flightParameters.altitude && (
+                              <span>ALT: <strong>{event.flightParameters.altitude}</strong></span>
+                            )}
+                            {event.flightParameters.airspeed && (
+                              <span>IAS/TAS: <strong>{event.flightParameters.airspeed}</strong></span>
+                            )}
+                            {event.flightParameters.heading && (
+                              <span>HDG: <strong>{event.flightParameters.heading}</strong></span>
+                            )}
+                            {event.flightParameters.verticalSpeed && (
+                              <span>V/S: <strong>{event.flightParameters.verticalSpeed}</strong></span>
+                            )}
+                          </div>
+                        )}
 
-                      {/* Source Citation */}
-                      {evt.sourceReference && (
-                        <div className="flex items-center justify-between text-2xs font-mono text-slate-400 pt-1">
-                          <span className="flex items-center gap-1.5">
-                            <FileText className="w-3 h-3 text-slate-500" />
-                            Official Citation: <strong>{evt.sourceReference.document}</strong>
-                            {evt.sourceReference.section && ` (${evt.sourceReference.section})`}
-                            {evt.sourceReference.page && `, p. ${evt.sourceReference.page}`}
-                          </span>
-                          <span className="text-slate-500">{evt.sourceReference.agency}</span>
-                        </div>
-                      )}
+                        {event.sourceReference && (
+                          <div className="flex items-center justify-between gap-2 text-2xs font-mono text-stone-500 pt-1">
+                            <span className="inline-flex items-center gap-1.5">
+                              <FileText className="w-3 h-3" />
+                              {event.sourceReference.document}
+                              {event.sourceReference.section ? ` • ${event.sourceReference.section}` : ''}
+                              {event.sourceReference.page ? ` (p. ${event.sourceReference.page})` : ''}
+                            </span>
+                            {event.sourceReference.url && (
+                              <a
+                                href={event.sourceReference.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-obsidian-950 font-semibold hover:underline"
+                              >
+                                <ExternalLink className="w-3 h-3" /> Source
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -1,57 +1,35 @@
 /**
- * PANKH Aviation Intelligence Design Tokens
- * Centralized design constants matching the aerospace & satellite intelligence visual language.
+ * PANKH Aviation Research Studio Design Tokens
+ * Light-first editorial palette (#F3F1EB / #17191B / #C8F169) with selective dark surfaces.
  */
 
 export const PANKH_COLORS = {
   background: {
-    abyss: '#050811',      // Viewport ground
-    canvas: '#090e1a',     // Base platform backdrop
-    panel: '#0d1525',      // Standard surface
-    panelElevated: '#121d33', // Raised cards & modals
-    panelHover: '#172540', // Hover state
+    light: '#F3F1EB',
+    paper: '#FAF9F6',
+    muted: '#E7E5DE',
+    dark: '#17191B',
+    darkElevated: '#222529',
   },
   borders: {
-    subtle: 'rgba(255, 255, 255, 0.07)',
-    medium: '#1f3152',
-    interactive: '#2b426d',
-    activeCyan: 'rgba(0, 240, 255, 0.4)',
-    warningAmber: 'rgba(245, 158, 11, 0.4)',
-    criticalCrimson: 'rgba(239, 68, 68, 0.4)',
+    hairline: 'rgba(23, 25, 27, 0.12)',
+    strong: 'rgba(23, 25, 27, 0.24)',
+    darkHairline: 'rgba(243, 241, 235, 0.12)',
+    accentLime: 'rgba(166, 217, 74, 0.5)',
   },
   accents: {
-    cyan: {
-      primary: '#00f0ff',
-      hover: '#38bdf8',
-      glow: 'rgba(0, 240, 255, 0.25)',
-      subtle: 'rgba(0, 240, 255, 0.08)',
-    },
-    aviation: {
-      primary: '#3b82f6',
-      subtle: 'rgba(59, 130, 246, 0.1)',
-      deep: '#1e3a5f',
-    },
-    amber: {
-      warning: '#f59e0b',
-      subtle: 'rgba(245, 158, 11, 0.1)',
-      glow: 'rgba(245, 158, 11, 0.25)',
-    },
-    crimson: {
-      critical: '#ef4444',
-      subtle: 'rgba(239, 68, 68, 0.12)',
-      glow: 'rgba(239, 68, 68, 0.25)',
-    },
-    emerald: {
-      nominal: '#10b981',
-      subtle: 'rgba(16, 185, 129, 0.1)',
-    },
+    lime: '#C8F169',
+    limeDark: '#A6D94A',
+    amber: '#D97706',
+    crimson: '#DC2626',
+    emerald: '#16A34A',
   },
   text: {
-    heading: '#f8fafc',
-    primary: '#f1f5f9',
-    secondary: '#94a3b8',
-    muted: '#64748b',
-    faint: '#475569',
+    primary: '#17191B',
+    secondary: '#747570',
+    muted: '#9A9B95',
+    onDark: '#F3F1EB',
+    onDarkMuted: '#9A9B95',
   },
 } as const;
 
@@ -69,55 +47,51 @@ export interface StatusConfig {
 export const STATUS_CONFIGS: Record<StatusLevel, StatusConfig> = {
   nominal: {
     label: 'Nominal',
-    dotColor: 'bg-emerald-400',
-    badgeBg: 'bg-emerald-950/40',
-    badgeBorder: 'border-emerald-500/30',
-    badgeText: 'text-emerald-300',
-    glow: 'shadow-glow-emerald',
+    dotColor: 'bg-emerald-500',
+    badgeBg: 'bg-emerald-100/80',
+    badgeBorder: 'border-emerald-600/25',
+    badgeText: 'text-emerald-700',
   },
   active: {
-    label: 'Active Tracking',
-    dotColor: 'bg-cyan-400',
-    badgeBg: 'bg-cyan-950/40',
-    badgeBorder: 'border-cyan-500/40',
-    badgeText: 'text-cyan-300',
-    glow: 'shadow-glow-cyan-sm',
+    label: 'Active',
+    dotColor: 'bg-lime-500',
+    badgeBg: 'bg-lime-400/35',
+    badgeBorder: 'border-lime-600/35',
+    badgeText: 'text-obsidian-950',
   },
   investigating: {
     label: 'Investigating',
-    dotColor: 'bg-aviation-400',
-    badgeBg: 'bg-aviation-950/40',
-    badgeBorder: 'border-aviation-500/30',
-    badgeText: 'text-aviation-300',
+    dotColor: 'bg-obsidian-700',
+    badgeBg: 'bg-sand-100',
+    badgeBorder: 'border-obsidian-950/20',
+    badgeText: 'text-obsidian-950',
   },
   warning: {
     label: 'Caution / Advisory',
-    dotColor: 'bg-amber-400',
-    badgeBg: 'bg-amber-950/40',
-    badgeBorder: 'border-amber-500/40',
-    badgeText: 'text-amber-300',
-    glow: 'shadow-glow-amber',
+    dotColor: 'bg-amber-500',
+    badgeBg: 'bg-amber-100/80',
+    badgeBorder: 'border-amber-600/30',
+    badgeText: 'text-amber-700',
   },
   critical: {
-    label: 'Critical Alert',
+    label: 'Critical',
     dotColor: 'bg-crimson-500',
-    badgeBg: 'bg-crimson-950/40',
-    badgeBorder: 'border-crimson-500/40',
-    badgeText: 'text-crimson-300',
-    glow: 'shadow-glow-crimson',
+    badgeBg: 'bg-crimson-100/80',
+    badgeBorder: 'border-crimson-600/30',
+    badgeText: 'text-crimson-700',
   },
   idle: {
     label: 'Standby',
-    dotColor: 'bg-slate-500',
-    badgeBg: 'bg-navy-800/60',
-    badgeBorder: 'border-navy-700/60',
-    badgeText: 'text-slate-400',
+    dotColor: 'bg-stone-400',
+    badgeBg: 'bg-sand-100',
+    badgeBorder: 'border-obsidian-950/15',
+    badgeText: 'text-stone-600',
   },
 };
 
 export const LAYOUT = {
-  sidebarWidthExpanded: 260,
+  sidebarWidthExpanded: 256,
   sidebarWidthCollapsed: 68,
-  headerHeight: 56,
-  maxContentWidth: 1680,
+  headerHeight: 60,
+  maxContentWidth: 1560,
 } as const;

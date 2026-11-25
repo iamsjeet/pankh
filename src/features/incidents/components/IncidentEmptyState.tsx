@@ -12,19 +12,19 @@ export const IncidentEmptyState: React.FC<IncidentEmptyStateProps> = ({
   searchQuery,
 }) => {
   return (
-    <div className="p-12 rounded-panel panel-surface border border-navy-800 flex flex-col items-center justify-center text-center max-w-lg mx-auto">
-      <div className="w-12 h-12 rounded-full bg-navy-900 border border-navy-700 flex items-center justify-center mb-4 text-slate-400">
-        <SearchX className="w-6 h-6 text-cyan-400/80" />
+    <div className="p-12 rounded-card panel-surface flex flex-col items-center justify-center text-center max-w-lg mx-auto">
+      <div className="w-12 h-12 rounded-full bg-sand-100 border border-obsidian-950/15 flex items-center justify-center mb-4">
+        <SearchX className="w-6 h-6 text-obsidian-950" />
       </div>
 
-      <h3 className="font-heading font-semibold text-lg text-white mb-2">
+      <h3 className="font-heading font-semibold text-lg text-obsidian-950 mb-2">
         No Matching Incident Records
       </h3>
 
-      <p className="text-xs text-slate-400 leading-relaxed max-w-sm mb-6">
+      <p className="text-xs text-stone-600 leading-relaxed max-w-sm mb-6">
         {searchQuery ? (
           <>
-            No records matched <span className="text-cyan-300 font-mono">"{searchQuery}"</span> under current filters. Try broader criteria or clear all filters.
+            No records matched <span className="text-obsidian-950 font-mono font-semibold">"{searchQuery}"</span> under current filters. Try broader criteria or clear all filters.
           </>
         ) : (
           'No incidents match the active category and severity filter criteria. Reset filters to view all curated records.'

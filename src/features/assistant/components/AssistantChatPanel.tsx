@@ -49,17 +49,14 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Load conversation & suggested questions whenever incidentId changes
   useEffect(() => {
     let isMounted = true;
-
     async function initAssistant() {
       try {
         const [history, suggestions] = await Promise.all([
           assistantService.getConversation(incidentId),
           assistantService.getSuggestedQuestions(incidentId),
         ]);
-
         if (isMounted) {
           setMessages(history);
           setSuggestedQuestions(suggestions);
@@ -68,19 +65,16 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
         console.error('Failed to initialize assistant session:', err);
       }
     }
-
     initAssistant();
     return () => {
       isMounted = false;
     };
   }, [incidentId]);
 
-  // Auto-scroll to bottom on message update
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isThinking]);
 
-  // Handle question submission
   const handleSendMessage = async (textToSend?: string) => {
     const text = (textToSend || inputValue).trim();
     if (!text || isThinking) return;
@@ -99,7 +93,6 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
 
     try {
       const response = await assistantService.submitQuestion(incidentId, text, messages);
-
       const assistantMsg: AssistantMessage = {
         id: `ASST-${Date.now()}`,
         role: 'assistant',
@@ -111,7 +104,6 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
         suggestedFollowUps: response.suggestedFollowUps,
         isFallback: response.isFallback,
       };
-
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
       console.error('Assistant error processing query:', err);
@@ -120,7 +112,6 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
     }
   };
 
-  // Keyboard shortcut: Enter to send, Shift+Enter for newline
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -128,7 +119,6 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
     }
   };
 
-  // Reset conversation
   const handleResetConversation = async () => {
     await assistantService.resetConversation(incidentId);
     const freshConversation = await assistantService.getConversation(incidentId);
@@ -138,38 +128,38 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
   return (
     <div
       className={cn(
-        'rounded-panel panel-surface-elevated border border-cyan-500/40 flex flex-col h-full overflow-hidden shadow-2xl relative',
+        'rounded-card panel-surface-elevated flex flex-col h-full overflow-hidden relative',
         className
       )}
     >
-      {/* Top Header Bar */}
-      <div className="p-3.5 border-b border-navy-700/80 bg-navy-950/80 flex items-center justify-between gap-3 shrink-0">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-panel bg-navy-900 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0 shadow-glow-cyan-sm">
+      {/* Top Editorial Header */}
+      <div className="p-4 border-b border-obsidian-950/10 bg-obsidian-950 text-sand-50 flex items-center justify-between gap-3 shrink-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-panel bg-obsidian-850 border border-white/15 flex items-center justify-center text-lime-400 shrink-0">
             <Bot className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <h3 className="font-heading font-semibold text-xs text-white truncate">
-                AI Investigation Assistant
+            <div className="flex items-center gap-2">
+              <h3 className="font-heading font-semibold text-xs text-sand-50 truncate">
+                Research Assistant
               </h3>
-              <Badge variant="mono" size="sm">
-                PROTOTYPE
+              <Badge variant="accent" size="sm">
+                CURATED Q&amp;A
               </Badge>
             </div>
-            <p className="text-2xs font-mono text-cyan-400 truncate" title={incidentTitle}>
-              CURATED KNOWLEDGE PROTOTYPE • {incidentId} ({incidentTitle})
+            <p className="text-2xs font-mono text-stone-400 truncate" title={incidentTitle}>
+              DETERMINISTIC ENGINE • {incidentId}
             </p>
           </div>
         </div>
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
           <button
             type="button"
             onClick={handleResetConversation}
-            className="p-1.5 rounded text-slate-400 hover:text-slate-100 hover:bg-navy-800 transition-colors"
+            className="p-1.5 rounded-subtle text-stone-400 hover:text-sand-50 hover:bg-obsidian-850 transition-colors"
             title="Reset conversation session"
+            aria-label="Reset conversation"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -178,8 +168,9 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
             <button
               type="button"
               onClick={onToggleExpand}
-              className="p-1.5 rounded text-slate-400 hover:text-slate-100 hover:bg-navy-800 transition-colors"
+              className="p-1.5 rounded-subtle text-stone-400 hover:text-sand-50 hover:bg-obsidian-850 transition-colors"
               title={isExpanded ? 'Collapse to split view' : 'Expand full panel'}
+              aria-label={isExpanded ? 'Collapse assistant' : 'Expand assistant'}
             >
               {isExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
             </button>
@@ -189,8 +180,9 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 rounded text-slate-400 hover:text-slate-100 hover:bg-navy-800 transition-colors"
+              className="p-1.5 rounded-subtle text-stone-400 hover:text-sand-50 hover:bg-obsidian-850 transition-colors"
               title="Close assistant"
+              aria-label="Close assistant"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -198,8 +190,8 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
         </div>
       </div>
 
-      {/* Messages Scroll Viewport */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-navy-900/40">
+      {/* Messages Viewport */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-sand-50/70">
         {messages.map((msg) => (
           <AssistantMessageItem
             key={msg.id}
@@ -209,69 +201,68 @@ export const AssistantChatPanel: React.FC<AssistantChatPanelProps> = ({
           />
         ))}
 
-        {/* Short Thinking Animation */}
         {isThinking && (
-          <div className="flex items-center gap-2.5 text-xs font-mono text-cyan-400 p-3 rounded-panel bg-navy-900/80 border border-cyan-500/20 max-w-sm">
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400 shrink-0" />
-            <span>Analyzing verified investigation dossier...</span>
+          <div className="flex items-center gap-2.5 text-xs font-mono text-obsidian-950 p-3 rounded-panel bg-sand-100 border border-obsidian-950/12 max-w-sm">
+            <Loader2 className="w-3.5 h-3.5 animate-spin text-obsidian-950 shrink-0" />
+            <span>Cross-referencing evidence dossier...</span>
           </div>
         )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Suggested Questions Section */}
+      {/* Suggested Questions */}
       {suggestedQuestions.length > 0 && (
-        <div className="px-3.5 py-2 border-t border-navy-800/80 bg-navy-950/90 shrink-0">
-          <span className="text-2xs font-mono uppercase text-slate-500 block mb-1.5">
-            Suggested Research Questions:
+        <div className="px-4 py-2.5 border-t border-obsidian-950/10 bg-sand-100/70 shrink-0">
+          <span className="text-2xs font-mono uppercase text-stone-500 block mb-1.5">
+            Suggested Inquiries
           </span>
-          <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex gap-1.5 overflow-x-auto pb-1">
             {suggestedQuestions.map((sq) => (
               <button
                 key={sq.id}
                 type="button"
                 onClick={() => handleSendMessage(sq.question)}
-                className="px-2.5 py-1 rounded text-2xs font-mono bg-navy-900 border border-navy-800 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 hover:bg-navy-850 whitespace-nowrap transition-colors flex items-center gap-1 shrink-0"
+                className="px-2.5 py-1 rounded-subtle text-2xs font-mono bg-sand-25 border border-obsidian-950/12 hover:border-obsidian-950 text-obsidian-950 whitespace-nowrap transition-colors flex items-center gap-1 shrink-0"
               >
                 <span>{sq.question}</span>
-                <ArrowRight className="w-2.5 h-2.5 text-cyan-400" />
+                <ArrowRight className="w-2.5 h-2.5 text-stone-500" />
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* User Input Dock */}
-      <div className="p-3 border-t border-navy-700/80 bg-navy-950 shrink-0">
-        <div className="relative flex items-center rounded-panel bg-navy-900/90 border border-navy-700 focus-within:border-cyan-500/70 focus-within:ring-1 focus-within:ring-cyan-500/30 transition-all">
+      {/* Input Dock */}
+      <div className="p-3.5 border-t border-obsidian-950/10 bg-sand-25 shrink-0">
+        <div className="relative flex items-center rounded-panel bg-white border border-obsidian-950/15 focus-within:border-obsidian-950 focus-within:ring-2 focus-within:ring-lime-400/50 transition-all">
           <textarea
             ref={inputRef}
             rows={2}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={`Ask about ${incidentId} (e.g. "What caused the collision?", "Explain the timeline")...`}
-            className="w-full bg-transparent px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none resize-none font-sans"
+            placeholder={`Ask about ${incidentId} (e.g. "What caused the collision?")...`}
+            className="w-full bg-transparent px-3 py-2 text-xs text-obsidian-950 placeholder:text-stone-400 focus:outline-none resize-none font-sans"
           />
           <button
             type="button"
             disabled={!inputValue.trim() || isThinking}
             onClick={() => handleSendMessage()}
-            className="mr-2 p-2 rounded-panel bg-cyan-500 text-navy-950 hover:bg-cyan-400 disabled:opacity-35 disabled:hover:bg-cyan-500 disabled:cursor-not-allowed transition-all shadow-glow-cyan-sm"
+            className="mr-2 p-2 rounded-panel bg-obsidian-950 text-lime-400 hover:bg-obsidian-850 disabled:opacity-35 disabled:cursor-not-allowed transition-all"
             title="Send query (Enter)"
+            aria-label="Send query"
           >
             <Send className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        <div className="flex items-center justify-between text-2xs font-mono text-slate-500 mt-1.5 px-1">
-          <span>Press Enter to send, Shift+Enter for new line</span>
-          <span className="text-cyan-400">Deterministic Engine v0.3</span>
+        <div className="flex items-center justify-between text-2xs font-mono text-stone-500 mt-1.5 px-1">
+          <span>Enter to send • Shift+Enter for new line</span>
+          <span className="text-obsidian-950 font-semibold">Deterministic Curated KB</span>
         </div>
       </div>
 
-      {/* Interactive Evidence Citation Modal */}
       <EvidenceCitationModal
         citation={selectedCitation}
         onClose={() => setSelectedCitation(null)}

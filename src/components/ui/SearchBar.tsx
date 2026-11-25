@@ -22,17 +22,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div
       className={cn(
-        'relative flex items-center w-full max-w-md h-9 rounded-panel bg-navy-900/90 border border-navy-700/80 px-3 transition-all duration-150 focus-within:border-cyan-500/60 focus-within:ring-1 focus-within:ring-cyan-500/30 focus-within:bg-navy-850',
+        'relative flex items-center w-full max-w-md h-10 rounded-panel bg-sand-25 border border-obsidian-950/15 px-3.5 transition-all duration-150 focus-within:border-obsidian-950 focus-within:ring-2 focus-within:ring-lime-400/50 focus-within:bg-white',
         className
       )}
     >
-      <Search className="w-3.5 h-3.5 text-slate-400 shrink-0 mr-2" />
+      <Search className="w-4 h-4 text-stone-500 shrink-0 mr-2.5" />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-transparent text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none"
+        className="w-full bg-transparent text-xs sm:text-sm text-obsidian-950 placeholder:text-stone-400 focus:outline-none"
       />
       {value ? (
         <button
@@ -41,12 +41,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             onChange('');
             onClear?.();
           }}
-          className="text-slate-400 hover:text-slate-200 transition-colors p-0.5 ml-1"
+          className="text-stone-500 hover:text-obsidian-950 transition-colors p-0.5 ml-1"
+          aria-label="Clear search"
         >
-          <X className="w-3 h-3" />
+          <X className="w-3.5 h-3.5" />
         </button>
       ) : shortcut ? (
-        <div className="hidden sm:flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-navy-800 text-slate-400 border border-navy-700 text-2xs font-mono select-none">
+        <div className="hidden sm:flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-sand-100 text-stone-600 border border-obsidian-950/10 text-2xs font-mono select-none">
           <Command className="w-2.5 h-2.5" />
           <span>{shortcut.replace('⌘', '')}</span>
         </div>

@@ -11,10 +11,7 @@ import {
   Layers,
   ExternalLink,
 } from 'lucide-react';
-import {
-  EvidenceItem,
-  EvidenceCategory,
-} from '@/features/incidents/types/incident';
+import { EvidenceItem, EvidenceCategory } from '@/features/incidents/types/incident';
 import { ProvenanceBadge } from '@/features/incidents/components/ProvenanceBadge';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';
@@ -32,36 +29,11 @@ interface CategoryTabConfig {
 }
 
 const CATEGORY_TABS: CategoryTabConfig[] = [
-  {
-    key: 'ALL',
-    label: 'All Items',
-    icon: Layers,
-    description: 'Complete evidence dossier and analytical findings.',
-  },
-  {
-    key: 'REPORTED_FACT',
-    label: 'Reported Facts',
-    icon: CheckCircle2,
-    description: 'Direct factual evidence verified by recorders or physical forensics.',
-  },
-  {
-    key: 'OFFICIAL_FINDING',
-    label: 'Official Findings',
-    icon: Shield,
-    description: 'Formal causal findings determined by the state investigation board.',
-  },
-  {
-    key: 'CONTRIBUTING_FACTOR',
-    label: 'Contributing Factors',
-    icon: AlertTriangle,
-    description: 'Systemic, organizational, human, or environmental contributors.',
-  },
-  {
-    key: 'UNKNOWN_OR_UNRESOLVED',
-    label: 'Unknown / Unresolved',
-    icon: HelpCircle,
-    description: 'Unresolved ambiguities, data gaps, or physiological hypotheses.',
-  },
+  { key: 'ALL', label: 'All Items', icon: Layers, description: 'Complete evidence dossier and analytical findings.' },
+  { key: 'REPORTED_FACT', label: 'Reported Facts', icon: CheckCircle2, description: 'Direct factual evidence verified by recorders or physical forensics.' },
+  { key: 'OFFICIAL_FINDING', label: 'Official Findings', icon: Shield, description: 'Formal causal findings determined by the state investigation board.' },
+  { key: 'CONTRIBUTING_FACTOR', label: 'Contributing Factors', icon: AlertTriangle, description: 'Systemic, organizational, human, or environmental contributors.' },
+  { key: 'UNKNOWN_OR_UNRESOLVED', label: 'Unknown / Unresolved', icon: HelpCircle, description: 'Unresolved ambiguities, data gaps, or physiological hypotheses.' },
 ];
 
 export const EvidenceFindingsPanel: React.FC<EvidenceFindingsPanelProps> = ({
@@ -70,10 +42,9 @@ export const EvidenceFindingsPanel: React.FC<EvidenceFindingsPanelProps> = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState<EvidenceCategory | 'ALL'>('ALL');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(
-    new Set(evidenceList.map((e) => e.id)) // Expand all initially so users can inspect claims directly
+    new Set(evidenceList.map((e) => e.id))
   );
 
-  // Auto-expand and switch to ALL when highlightedEvidenceId changes
   React.useEffect(() => {
     if (highlightedEvidenceId) {
       setActiveCategory('ALL');
@@ -84,21 +55,10 @@ export const EvidenceFindingsPanel: React.FC<EvidenceFindingsPanelProps> = ({
   const toggleExpand = (id: string) => {
     setExpandedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
-  };
-
-  const handleExpandAll = () => {
-    setExpandedIds(new Set(evidenceList.map((e) => e.id)));
-  };
-
-  const handleCollapseAll = () => {
-    setExpandedIds(new Set());
   };
 
   const filteredEvidence =
@@ -113,8 +73,8 @@ export const EvidenceFindingsPanel: React.FC<EvidenceFindingsPanelProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Category Filter Tabs */}
-      <div className="p-3 rounded-panel panel-surface border border-navy-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* Category Filter Bar */}
+      <div className="p-3.5 rounded-panel panel-surface flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-1.5 overflow-x-auto py-1">
           {CATEGORY_TABS.map((tab) => {
             const Icon = tab.icon;
@@ -127,18 +87,18 @@ export const EvidenceFindingsPanel: React.FC<EvidenceFindingsPanelProps> = ({
                 type="button"
                 onClick={() => setActiveCategory(tab.key)}
                 className={cn(
-                  'px-3 py-1.5 rounded text-xs font-mono transition-all flex items-center gap-2 select-none whitespace-nowrap',
+                  'px-2.5 py-1.5 rounded-subtle text-2xs font-mono transition-colors flex items-center gap-1.5 whitespace-nowrap select-none border',
                   isActive
-                    ? 'bg-navy-800 text-cyan-300 border border-cyan-500/40 font-semibold shadow-glow-cyan-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-navy-850 border border-transparent'
+                    ? 'bg-obsidian-950 text-lime-400 border-obsidian-950 font-semibold'
+                    : 'bg-sand-100 text-stone-600 border-obsidian-950/10 hover:text-obsidian-950'
                 )}
               >
-                <Icon className={cn('w-3.5 h-3.5', isActive ? 'text-cyan-400' : 'text-slate-500')} />
+                <Icon className="w-3 h-3" />
                 <span>{tab.label}</span>
                 <span
                   className={cn(
-                    'px-1.5 py-0.2 rounded text-2xs',
-                    isActive ? 'bg-cyan-500/20 text-cyan-300' : 'bg-navy-900 text-slate-500'
+                    'px-1 rounded text-2xs',
+                    isActive ? 'bg-lime-400 text-obsidian-950 font-bold' : 'bg-sand-200 text-stone-600'
                   )}
                 >
                   {count}
@@ -148,110 +108,89 @@ export const EvidenceFindingsPanel: React.FC<EvidenceFindingsPanelProps> = ({
           })}
         </div>
 
-        <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto">
-          <Button variant="ghost" size="xs" onClick={handleExpandAll}>
+        <div className="flex items-center gap-1 shrink-0">
+          <Button variant="ghost" size="xs" onClick={() => setExpandedIds(new Set(evidenceList.map((e) => e.id)))}>
             Expand All
           </Button>
-          <Button variant="ghost" size="xs" onClick={handleCollapseAll}>
-            Collapse All
+          <Button variant="ghost" size="xs" onClick={() => setExpandedIds(new Set())}>
+            Collapse
           </Button>
         </div>
       </div>
 
-      {/* Evidence Cards List */}
+      {/* Evidence Cards */}
       <div className="space-y-3">
         {filteredEvidence.map((item) => {
           const isExpanded = expandedIds.has(item.id);
-          const isHighlighted = item.id === highlightedEvidenceId;
+          const isHighlighted = highlightedEvidenceId === item.id;
 
           return (
             <div
               key={item.id}
               id={`evidence-${item.id}`}
               className={cn(
-                'rounded-panel panel-surface border transition-all duration-200 overflow-hidden',
-                isHighlighted
-                  ? 'border-cyan-400 bg-cyan-950/20 shadow-glow-cyan ring-1 ring-cyan-400/50'
-                  : isExpanded
-                  ? 'border-cyan-500/40'
-                  : 'border-navy-700/70 hover:border-navy-600'
+                'rounded-panel panel-surface overflow-hidden transition-all',
+                isHighlighted && 'ring-2 ring-lime-500 border-obsidian-950'
               )}
             >
-              {/* Header Bar */}
-              <div
+              <button
+                type="button"
                 onClick={() => toggleExpand(item.id)}
-                className="p-4 flex items-start justify-between gap-3 cursor-pointer select-none"
+                className="w-full p-4 flex items-start justify-between gap-3 text-left"
               >
-                <div className="space-y-1.5 min-w-0 flex-1">
+                <div className="space-y-1.5 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-2xs font-bold text-cyan-400 bg-navy-900 border border-cyan-500/30 px-2 py-0.5 rounded">
+                    <span className="font-mono text-xs font-bold text-obsidian-950 bg-lime-400/55 px-2 py-0.5 rounded-subtle border border-lime-600/30">
                       {item.id}
                     </span>
-
                     <ProvenanceBadge provenance={item.provenance} size="sm" />
-
-                    <span className="text-2xs font-mono text-slate-400 border border-navy-700 px-2 py-0.5 rounded bg-navy-900/50">
-                      {item.category.replace('_', ' ')}
+                    <span className="text-2xs font-mono uppercase text-stone-500">
+                      {item.category.replace(/_/g, ' ')}
                     </span>
                   </div>
-
-                  <h4 className="font-heading font-semibold text-sm text-white leading-snug">
+                  <h4 className="font-heading font-semibold text-sm text-obsidian-950 leading-snug">
                     {item.claim}
                   </h4>
                 </div>
-
-                <div className="p-1 rounded text-slate-400 hover:text-slate-200 shrink-0">
+                <span className="p-1 text-stone-500 shrink-0">
                   {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </div>
-              </div>
+                </span>
+              </button>
 
-              {/* Expandable Evidence Details & Official Citations */}
-              <AnimatePresence>
+              <AnimatePresence initial={false}>
                 {isExpanded && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.18 }}
-                    className="px-4 pb-4 pt-1 border-t border-navy-800/80 space-y-3 text-xs"
+                    className="overflow-hidden"
                   >
-                    <p className="text-slate-200 leading-relaxed">
-                      {item.detail}
-                    </p>
+                    <div className="px-4 pb-4 pt-2 border-t border-obsidian-950/10 space-y-3 text-xs">
+                      <p className="text-stone-600 leading-relaxed">{item.detail}</p>
 
-                    {item.verificationNotes && (
-                      <div className="p-2.5 rounded bg-amber-950/20 border border-amber-500/20 text-2xs font-mono text-amber-300/90">
-                        <strong>Provenance Note:</strong> {item.verificationNotes}
-                      </div>
-                    )}
+                      <div className="p-3 rounded-subtle bg-sand-100/80 border border-obsidian-950/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-2xs text-stone-600">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <FileText className="w-3.5 h-3.5 text-obsidian-950 shrink-0" />
+                          <span className="truncate">
+                            <strong className="text-obsidian-950">{item.source.document}</strong>
+                            {item.source.section ? ` • ${item.source.section}` : ''}
+                            {item.source.page ? ` (p. ${item.source.page})` : ''}
+                          </span>
+                        </div>
 
-                    {/* Official Document Citation Box */}
-                    <div className="p-3 rounded bg-navy-950/80 border border-navy-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-2xs font-mono text-slate-400">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <FileText className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                        <span>
-                          Source Reference:{' '}
-                          <strong className="text-slate-200">{item.source.document}</strong>
-                          {item.source.section && ` • ${item.source.section}`}
-                          {item.source.page && ` • p. ${item.source.page}`}
-                        </span>
                         {item.source.url && (
                           <a
                             href={item.source.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 underline underline-offset-2 ml-1"
-                            title="Inspect official primary investigation report"
+                            className="inline-flex items-center gap-1 text-obsidian-950 font-semibold hover:underline decoration-lime-500 decoration-2 shrink-0"
                           >
-                            <span>[Primary Source]</span>
-                            <ExternalLink className="w-2.5 h-2.5" />
+                            <ExternalLink className="w-3 h-3" />
+                            <span>Primary Source</span>
                           </a>
                         )}
                       </div>
-
-                      <span className="px-2 py-0.5 rounded bg-navy-900 border border-navy-700 text-cyan-300 font-semibold self-start sm:self-auto">
-                        Agency: {item.source.agency}
-                      </span>
                     </div>
                   </motion.div>
                 )}

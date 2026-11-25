@@ -1,37 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { PageTransition } from '@/animations/PageTransition';
 
 export const AppLayout: React.FC = () => {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-navy-950 text-slate-100 font-sans">
-      {/* Tactical Aerospace Sidebar */}
-      <Sidebar />
+    <div className="flex h-screen w-screen overflow-hidden bg-sand-50 text-obsidian-950 font-sans">
+      {/* Editorial Sidebar + Mobile Drawer */}
+      <Sidebar
+        mobileOpen={mobileNavOpen}
+        onCloseMobile={() => setMobileNavOpen(false)}
+      />
 
       {/* Main Content Area */}
-      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-navy-900/60 bg-tactical-grid">
-        {/* Top Header */}
-        <Header />
+      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-sand-50 bg-tactical-grid">
+        <Header onOpenMobileNav={() => setMobileNavOpen(true)} />
 
-        {/* Scrollable Viewport */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           <PageTransition>
             <Outlet />
           </PageTransition>
         </main>
 
-        {/* Restrained Tactical Status Footer */}
-        <footer className="h-7 bg-navy-950/90 border-t border-navy-800/80 px-4 flex items-center justify-between text-2xs font-mono text-slate-500 shrink-0 select-none">
+        {/* Restrained Research Footer */}
+        <footer className="h-8 bg-sand-25 border-t border-obsidian-950/10 px-4 sm:px-6 flex items-center justify-between text-2xs font-mono text-stone-500 shrink-0 select-none">
           <div className="flex items-center gap-3">
-            <span className="text-slate-400">PANKH AEROSPACE INTELLIGENCE</span>
-            <span className="hidden sm:inline text-slate-600">|</span>
-            <span className="hidden sm:inline">SAFETY RESEARCH REPOSITORY</span>
+            <span className="text-obsidian-950 font-medium">PANKH RESEARCH STUDIO</span>
+            <span className="hidden sm:inline text-stone-400">•</span>
+            <span className="hidden sm:inline">NON-CERTIFIED ACADEMIC PROTOTYPE</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span className="text-slate-400">NODE: ONLINE (LATENCY &lt; 8ms)</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-lime-500" />
+            <span className="text-obsidian-950">LOCAL SESSION</span>
           </div>
         </footer>
       </div>

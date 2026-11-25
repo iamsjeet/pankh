@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Plane,
   Compass,
@@ -6,13 +6,13 @@ import {
   Layers,
   Activity,
   Clock,
+  AlertTriangle,
+  CheckCircle2,
+  ShieldAlert,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
-import {
-  AircraftTelemetry,
-  PlaybackFrame,
-  SimulationEvent,
-} from '../types/simulation';
-import { Badge } from '@/components/ui/Badge';
+import { AircraftTelemetry, PlaybackFrame, SimulationEvent } from '../types/simulation';
 import { cn } from '@/utils/cn';
 
 export interface TelemetrySidePanelProps {
@@ -32,31 +32,52 @@ export const TelemetrySidePanel: React.FC<TelemetrySidePanelProps> = ({
   accumulatedEvents,
   className,
 }) => {
+  const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
   const selectedAircraft: AircraftTelemetry | undefined =
     currentFrame?.aircraft[selectedAircraftId];
 
+  const latSep = currentFrame?.separationDistanceNM;
+  const vertSep = currentFrame?.verticalSeparationFT;
+
+  const latStatus =
+    latSep === undefined
+      ? { label: 'STANDBY', color: 'text-stone-400', icon: Clock }
+      : latSep < 2.0
+      ? { label: 'CRITICAL', color: 'text-crimson-400', icon: ShieldAlert }
+      : latSep < 5.0
+      ? { label: 'CAUTION', color: 'text-amber-400', icon: AlertTriangle }
+      : { label: 'NOMINAL', color: 'text-[#A8C96D]', icon: CheckCircle2 };
+
+  const vertStatus =
+    vertSep === undefined
+      ? { label: 'STANDBY', color: 'text-stone-400' }
+      : vertSep < 500
+      ? { label: 'CRITICAL', color: 'text-crimson-400' }
+      : vertSep < 1000
+      ? { label: 'CAUTION', color: 'text-amber-400' }
+      : { label: 'NOMINAL', color: 'text-[#A8C96D]' };
+
+  const LatIcon = latStatus.icon;
+
   return (
-    <div
+    <aside
       className={cn(
-        'rounded-panel panel-surface border border-navy-700/80 p-4 flex flex-col justify-between space-y-4 text-xs font-mono select-none overflow-y-auto',
+        'bg-obsidian-950 text-sand-50 flex flex-col justify-between select-none overflow-y-auto',
         className
       )}
     >
-      <div className="space-y-4">
-        {/* Panel Header & Aircraft Selector */}
-        <div>
-          <div className="flex items-center justify-between pb-2 border-b border-navy-800">
-            <span className="font-heading font-semibold text-xs text-white uppercase tracking-wider flex items-center gap-1.5">
-              <Plane className="w-3.5 h-3.5 text-cyan-400" />
-              Live Telemetry Stream
+      <div className="divide-y divide-white/10">
+        {/* 1. Instrumentation Header & Aircraft Switcher */}
+        <div className="p-5 space-y-3.5">
+          <div className="flex items-center justify-between">
+            <span className="text-2xs font-mono uppercase tracking-[0.2em] text-stone-400 flex items-center gap-2">
+              <Plane className="w-3.5 h-3.5 text-[#88B04B]" />
+              Live Telemetry
             </span>
-            <Badge variant="mono" size="sm">
-              60 HZ
-            </Badge>
+            <span className="text-2xs font-mono text-stone-500">DETERMINISTIC</span>
           </div>
 
-          {/* Aircraft Tabs */}
-          <div className="flex items-center gap-1.5 pt-2">
+          <div className="grid grid-cols-2 gap-1.5 p-1 rounded-panel bg-obsidian-850 border border-white/10">
             {aircraftList.map((ac) => {
               const isSelected = ac.id === selectedAircraftId;
               return (
@@ -65,200 +86,194 @@ export const TelemetrySidePanel: React.FC<TelemetrySidePanelProps> = ({
                   type="button"
                   onClick={() => onSelectAircraft(ac.id)}
                   className={cn(
-                    'flex-1 py-1 px-2 rounded text-2xs transition-all border truncate',
+                    'py-2 px-3 rounded-subtle text-xs font-mono transition-all text-left flex flex-col',
                     isSelected
-                      ? 'bg-navy-800 text-cyan-300 border-cyan-500/40 font-bold shadow-glow-cyan-sm'
-                      : 'bg-navy-900 text-slate-400 border-navy-800 hover:text-slate-200'
+                      ? 'bg-[#88B04B] text-obsidian-950 font-bold shadow-sm'
+                      : 'text-stone-400 hover:text-sand-50 hover:bg-white/5'
                   )}
                 >
-                  {ac.callsign}
+                  <span className="truncate">{ac.callsign}</span>
+                  <span
+                    className={cn(
+                      'text-[10px] truncate',
+                      isSelected ? 'text-obsidian-950/75 font-medium' : 'text-stone-500'
+                    )}
+                  >
+                    {ac.type}
+                  </span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Selected Aircraft Telemetry Readouts */}
+        {/* 2. Selected Aircraft Instrumentation Readouts */}
         {selectedAircraft ? (
-          <div className="space-y-2.5">
-            {/* Callout Header */}
-            <div className="p-2.5 rounded bg-navy-900 border border-navy-800 flex items-center justify-between">
+          <div className="p-5 space-y-4">
+            <div className="flex items-baseline justify-between gap-2">
               <div>
-                <strong className="text-white block font-heading text-sm">
+                <h3 className="font-heading text-xl font-bold text-sand-50 tracking-tight">
                   {selectedAircraft.callsign}
-                </strong>
-                <span className="text-2xs text-slate-400">{selectedAircraft.type}</span>
+                </h3>
+                <span className="text-2xs font-mono text-stone-400">{selectedAircraft.type}</span>
               </div>
-              <Badge
-                variant={
-                  selectedAircraft.status === 'TCAS_RA_CLIMB'
-                    ? 'active'
-                    : selectedAircraft.status === 'TCAS_RA_DESCEND'
-                    ? 'warning'
-                    : selectedAircraft.status === 'IMPACT'
-                    ? 'critical'
-                    : selectedAircraft.status === 'SAFE'
-                    ? 'nominal'
-                    : 'default'
-                }
-                size="sm"
-                dot
+              <span
+                className={cn(
+                  'px-2 py-0.5 rounded-subtle text-[10px] font-mono font-semibold uppercase tracking-wider border',
+                  selectedAircraft.status === 'TCAS_RA_CLIMB' || selectedAircraft.status === 'SAFE'
+                    ? 'bg-[#88B04B]/15 text-[#A8C96D] border-[#88B04B]/40'
+                    : selectedAircraft.status === 'IMPACT' || selectedAircraft.status === 'CONFLICT'
+                    ? 'bg-crimson-950 text-crimson-300 border-crimson-500/40'
+                    : selectedAircraft.status === 'TCAS_RA_DESCEND' || selectedAircraft.status === 'TCAS_TA'
+                    ? 'bg-amber-950 text-amber-300 border-amber-500/40'
+                    : 'bg-obsidian-850 text-stone-300 border-white/15'
+                )}
               >
                 {selectedAircraft.status.replace(/_/g, ' ')}
-              </Badge>
+              </span>
             </div>
 
-            {/* Metrics 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-2 text-2xs">
-              {/* Altitude */}
-              <div className="p-2 rounded bg-navy-900/60 border border-navy-800">
-                <span className="text-slate-500 flex items-center gap-1 mb-0.5">
-                  <Layers className="w-3 h-3 text-cyan-400" />
-                  ALTITUDE
+            {/* Clean Divider-Separated Telemetry Grid (No Repetitive Boxes) */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-2 border-t border-white/10">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-stone-500 flex items-center gap-1">
+                  <Layers className="w-3 h-3 text-[#88B04B]" /> Altitude
                 </span>
-                <strong className="text-white font-telemetry text-xs">
+                <div className="font-heading text-2xl font-bold text-sand-50 font-telemetry mt-0.5">
                   {selectedAircraft.altitudeFormatted}
-                </strong>
-                <div className="text-2xs text-slate-400 font-telemetry">
+                </div>
+                <span className="text-[11px] font-mono text-stone-400 font-telemetry">
                   {selectedAircraft.altitude.toLocaleString()} FT
-                </div>
+                </span>
               </div>
 
-              {/* Airspeed */}
-              <div className="p-2 rounded bg-navy-900/60 border border-navy-800">
-                <span className="text-slate-500 flex items-center gap-1 mb-0.5">
-                  <Gauge className="w-3 h-3 text-amber-400" />
-                  AIRSPEED
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-stone-500 flex items-center gap-1">
+                  <Gauge className="w-3 h-3 text-stone-400" /> Airspeed
                 </span>
-                <strong className="text-white font-telemetry text-xs">
-                  {selectedAircraft.speed} KT
-                </strong>
-                <div className="text-2xs text-slate-400 font-telemetry">
-                  TAS ~ Mach {(selectedAircraft.speed / 580).toFixed(2)}
+                <div className="font-heading text-2xl font-bold text-sand-50 font-telemetry mt-0.5">
+                  {selectedAircraft.speed} <span className="text-xs font-mono text-stone-400">KT</span>
                 </div>
+                <span className="text-[11px] font-mono text-stone-400 font-telemetry">
+                  M {(selectedAircraft.speed / 580).toFixed(2)}
+                </span>
               </div>
 
-              {/* Heading */}
-              <div className="p-2 rounded bg-navy-900/60 border border-navy-800">
-                <span className="text-slate-500 flex items-center gap-1 mb-0.5">
-                  <Compass className="w-3 h-3 text-aviation-400" />
-                  HEADING
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-stone-500 flex items-center gap-1">
+                  <Compass className="w-3 h-3 text-stone-400" /> Heading
                 </span>
-                <strong className="text-white font-telemetry text-xs">
+                <div className="font-heading text-2xl font-bold text-sand-50 font-telemetry mt-0.5">
                   {selectedAircraft.heading}°
-                </strong>
-                <div className="text-2xs text-slate-400 font-telemetry">
-                  TRACK VECTOR
                 </div>
+                <span className="text-[11px] font-mono text-stone-400">TRACK VECTOR</span>
               </div>
 
-              {/* Vertical Speed */}
-              <div className="p-2 rounded bg-navy-900/60 border border-navy-800">
-                <span className="text-slate-500 flex items-center gap-1 mb-0.5">
-                  <Activity className="w-3 h-3 text-emerald-400" />
-                  V-SPEED
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-stone-500 flex items-center gap-1">
+                  <Activity className="w-3 h-3 text-stone-400" /> V-Speed
                 </span>
-                <strong
+                <div
                   className={cn(
-                    'font-telemetry text-xs',
+                    'font-heading text-2xl font-bold font-telemetry mt-0.5',
                     selectedAircraft.verticalSpeed > 0
-                      ? 'text-cyan-300'
+                      ? 'text-[#A8C96D]'
                       : selectedAircraft.verticalSpeed < 0
                       ? 'text-amber-400'
-                      : 'text-white'
+                      : 'text-sand-50'
                   )}
                 >
-                  {selectedAircraft.verticalSpeedFormatted ||
-                    `${selectedAircraft.verticalSpeed > 0 ? '+' : ''}${selectedAircraft.verticalSpeed} FPM`}
-                </strong>
-                <div className="text-2xs text-slate-400 font-telemetry">
-                  RATE OF CLIMB
+                  {selectedAircraft.verticalSpeed > 0 ? '+' : ''}
+                  {selectedAircraft.verticalSpeed}
                 </div>
+                <span className="text-[11px] font-mono text-stone-400">FPM</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="p-4 text-center text-slate-500">
-            No aircraft telemetry active in this frame.
+          <div className="p-5 text-xs font-mono text-stone-500">
+            Awaiting telemetry frame...
           </div>
         )}
 
-        {/* Global Separation Gauge */}
-        {currentFrame && currentFrame.separationDistanceNM !== undefined && (
-          <div className="p-2.5 rounded bg-navy-950 border border-navy-800 space-y-1.5">
-            <div className="flex items-center justify-between text-2xs">
-              <span className="text-slate-400">Lateral Separation:</span>
-              <strong
-                className={cn(
-                  'font-telemetry',
-                  currentFrame.separationDistanceNM < 2.0
-                    ? 'text-crimson-400'
-                    : currentFrame.separationDistanceNM < 5.0
-                    ? 'text-amber-400'
-                    : 'text-emerald-400'
-                )}
-              >
-                {currentFrame.separationDistanceNM} NM
-              </strong>
+        {/* 3. Separation Monitors (Multi-cue: Icon + Label + Value) */}
+        {currentFrame && latSep !== undefined && (
+          <div className="p-5 space-y-2.5 bg-obsidian-850/45">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-mono text-stone-400 flex items-center gap-1.5">
+                <LatIcon className={cn('w-3.5 h-3.5', latStatus.color)} />
+                Lateral Separation
+              </span>
+              <div className="flex items-center gap-2 font-telemetry">
+                <span className={cn('text-[10px] font-mono uppercase', latStatus.color)}>
+                  {latStatus.label}
+                </span>
+                <strong className="text-sm text-sand-50">{latSep} NM</strong>
+              </div>
             </div>
 
-            {currentFrame.verticalSeparationFT !== undefined && (
-              <div className="flex items-center justify-between text-2xs">
-                <span className="text-slate-400">Vertical Separation:</span>
-                <strong
-                  className={cn(
-                    'font-telemetry',
-                    currentFrame.verticalSeparationFT < 500
-                      ? 'text-crimson-400'
-                      : currentFrame.verticalSeparationFT < 1000
-                      ? 'text-amber-400'
-                      : 'text-emerald-400'
-                  )}
-                >
-                  {currentFrame.verticalSeparationFT} FT
-                </strong>
+            {vertSep !== undefined && (
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-mono text-stone-400 pl-5">Vertical Separation</span>
+                <div className="flex items-center gap-2 font-telemetry">
+                  <span className={cn('text-[10px] font-mono uppercase', vertStatus.color)}>
+                    {vertStatus.label}
+                  </span>
+                  <strong className="text-sm text-sand-50">{vertSep} FT</strong>
+                </div>
               </div>
             )}
           </div>
         )}
 
-        {/* Live Simulation Event Feed */}
-        <div className="space-y-1.5">
-          <div className="text-2xs uppercase text-slate-500 font-bold flex items-center justify-between">
-            <span>Chronological Events ({accumulatedEvents.length})</span>
-            <Clock className="w-3 h-3 text-slate-500" />
+        {/* 4. Technical Chronology (Expandable Time Axis) */}
+        <div className="p-5 space-y-3">
+          <div className="flex items-center justify-between text-2xs font-mono uppercase tracking-widest text-stone-400">
+            <span>Chronology ({accumulatedEvents.length})</span>
+            <Clock className="w-3.5 h-3.5 text-stone-500" />
           </div>
 
-          <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-            {accumulatedEvents.length === 0 ? (
-              <span className="text-2xs text-slate-600">Awaiting initial radar triggers...</span>
-            ) : (
-              [...accumulatedEvents].reverse().map((evt) => (
-                <div
-                  key={evt.id}
-                  className="p-2 rounded bg-navy-900/80 border border-navy-800 text-2xs space-y-0.5"
-                >
-                  <div className="flex items-center justify-between text-cyan-400 font-telemetry">
-                    <span>{evt.timestampFormatted}</span>
-                    <span className="text-slate-500 text-2xs">{evt.category}</span>
+          {accumulatedEvents.length === 0 ? (
+            <p className="text-xs font-mono text-stone-500">Awaiting initial sequence...</p>
+          ) : (
+            <div className="relative pl-4 space-y-3 before:absolute before:left-1 before:top-1.5 before:bottom-1.5 before:w-px before:bg-white/15">
+              {[...accumulatedEvents].reverse().map((evt) => {
+                const isOpen = expandedEventId === evt.id;
+                return (
+                  <div key={evt.id} className="relative">
+                    <span className="absolute -left-[15px] top-1.5 w-2 h-2 rounded-full bg-[#88B04B]" />
+                    <button
+                      type="button"
+                      onClick={() => setExpandedEventId(isOpen ? null : evt.id)}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-[#A8C96D]">
+                        <span>{evt.timestampFormatted}</span>
+                        <span className="text-stone-500 flex items-center gap-1">
+                          {evt.category.replace(/_/g, ' ')}
+                          {isOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                        </span>
+                      </div>
+                      <div className="text-xs font-medium text-sand-50 group-hover:text-[#A8C96D] transition-colors leading-snug mt-0.5">
+                        {evt.title}
+                      </div>
+                      {isOpen && (
+                        <p className="text-[11px] text-stone-400 leading-relaxed mt-1.5">
+                          {evt.description}
+                        </p>
+                      )}
+                    </button>
                   </div>
-                  <strong className="text-white block font-medium leading-snug">
-                    {evt.title}
-                  </strong>
-                  <p className="text-slate-400 text-2xs leading-relaxed">
-                    {evt.description}
-                  </p>
-                </div>
-              ))
-            )}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Synthetic Data Disclaimer Footer */}
-      <div className="pt-2 border-t border-navy-800 text-2xs text-slate-500 text-center">
-        ILLUSTRATIVE SIMULATION TELEMETRY • NON-OPERATIONAL
+      <div className="px-5 py-3 border-t border-white/10 text-[10px] font-mono text-stone-500 tracking-wider uppercase">
+        Illustrative Simulation Telemetry • Non-Operational
       </div>
-    </div>
+    </aside>
   );
 };

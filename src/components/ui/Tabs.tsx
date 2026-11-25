@@ -27,7 +27,7 @@ export const Tabs: React.FC<TabsProps> = ({
   return (
     <div
       className={cn(
-        'inline-flex items-center p-1 rounded-panel bg-navy-900/90 border border-navy-700/80',
+        'inline-flex items-center p-1 rounded-panel bg-sand-100 border border-obsidian-950/10',
         className
       )}
     >
@@ -39,15 +39,15 @@ export const Tabs: React.FC<TabsProps> = ({
             type="button"
             onClick={() => onChange(tab.id)}
             className={cn(
-              'relative flex items-center justify-center font-sans transition-colors duration-150 select-none z-10 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded-subtle',
-              size === 'sm' ? 'px-2.5 py-1 text-xs gap-1.5' : 'px-3.5 py-1.5 text-xs gap-2',
-              isActive ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
+              'relative flex items-center justify-center font-sans transition-colors duration-150 select-none z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 rounded-subtle',
+              size === 'sm' ? 'px-3 py-1.5 text-xs gap-1.5' : 'px-4 py-1.5 text-xs gap-2',
+              isActive ? 'text-obsidian-950 font-semibold' : 'text-stone-600 hover:text-obsidian-950'
             )}
           >
             {isActive && (
               <motion.div
                 layoutId="activeTabPill"
-                className="absolute inset-0 bg-navy-800 border border-navy-650 rounded-subtle -z-10 shadow-sm"
+                className="absolute inset-0 bg-white border border-obsidian-950/10 rounded-subtle -z-10 shadow-sm"
                 transition={{ type: 'spring', stiffness: 450, damping: 35 }}
               />
             )}
@@ -57,7 +57,7 @@ export const Tabs: React.FC<TabsProps> = ({
               <span
                 className={cn(
                   'px-1.5 py-0.2 rounded font-mono text-2xs',
-                  isActive ? 'bg-cyan-500/20 text-cyan-300' : 'bg-navy-700 text-slate-400'
+                  isActive ? 'bg-lime-400 text-obsidian-950 font-semibold' : 'bg-sand-200 text-stone-600'
                 )}
               >
                 {tab.badge}

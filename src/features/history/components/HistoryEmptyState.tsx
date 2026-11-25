@@ -13,30 +13,30 @@ export const HistoryEmptyState: React.FC = () => {
 
   return (
     <div className="py-12 px-4 max-w-2xl mx-auto text-center space-y-6">
-      <div className="w-16 h-16 rounded-full bg-navy-900 border border-cyan-500/30 flex items-center justify-center mx-auto text-cyan-400 shadow-glow-cyan-sm">
+      <div className="w-16 h-16 rounded-full bg-sand-100 border border-lime-600/35 flex items-center justify-center mx-auto text-obsidian-950 shadow-glow-cyan-sm">
         <History className="w-8 h-8" />
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-xl font-heading font-bold text-white">
+        <h2 className="text-xl font-heading font-bold text-obsidian-950">
           No Investigation or Simulation Activity Yet
         </h2>
-        <p className="text-xs text-slate-400 font-mono max-w-md mx-auto leading-relaxed">
+        <p className="text-xs text-stone-500 font-mono max-w-md mx-auto leading-relaxed">
           PANKH records your investigation progress, evidence findings, assistant Q&A sessions, and interactive simulation branches as you explore.
         </p>
       </div>
 
       {/* Suggested Quick Starts */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 text-left">
-        <div className="p-5 rounded-panel panel-surface border border-navy-800 hover:border-cyan-500/40 transition-all space-y-3">
-          <div className="w-9 h-9 rounded-lg bg-navy-900 border border-navy-700 flex items-center justify-center text-cyan-400">
+        <div className="p-5 rounded-panel panel-surface border border-obsidian-950/12 hover:border-lime-600/35 transition-all space-y-3">
+          <div className="w-9 h-9 rounded-lg bg-sand-100 border border-obsidian-950/12 flex items-center justify-center text-obsidian-950">
             <FileSearch className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-heading font-semibold text-sm text-white">
+            <h3 className="font-heading font-semibold text-sm text-obsidian-950">
               Incident Library
             </h3>
-            <p className="text-2xs text-slate-400 font-mono mt-1">
+            <p className="text-2xs text-stone-500 font-mono mt-1">
               Investigate 4 deep aviation accident records including Überlingen, AF447, and Charkhi Dadri.
             </p>
           </div>
@@ -51,15 +51,15 @@ export const HistoryEmptyState: React.FC = () => {
           </Button>
         </div>
 
-        <div className="p-5 rounded-panel panel-surface border border-navy-800 hover:border-cyan-500/40 transition-all space-y-3">
-          <div className="w-9 h-9 rounded-lg bg-navy-900 border border-navy-700 flex items-center justify-center text-aviation-400">
+        <div className="p-5 rounded-panel panel-surface border border-obsidian-950/12 hover:border-lime-600/35 transition-all space-y-3">
+          <div className="w-9 h-9 rounded-lg bg-sand-100 border border-obsidian-950/12 flex items-center justify-center text-aviation-400">
             <Plane className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-heading font-semibold text-sm text-white">
+            <h3 className="font-heading font-semibold text-sm text-obsidian-950">
               Interactive Simulation
             </h3>
-            <p className="text-2xs text-slate-400 font-mono mt-1">
+            <p className="text-2xs text-stone-500 font-mono mt-1">
               Participate in the Überlingen 2002 mid-air collision scenario with decision branching.
             </p>
           </div>

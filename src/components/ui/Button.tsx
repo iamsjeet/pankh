@@ -1,15 +1,17 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef, useCallback } from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { useReducedMotion } from '@/animations/useReducedMotion';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'warning';
+export type ButtonVariant = 'primary' | 'accent' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'warning';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   isLoading?: boolean;
+  magnetic?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   children?: React.ReactNode;
@@ -18,24 +20,26 @@ export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'>
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-cyan-500 text-navy-950 font-semibold hover:bg-cyan-400 active:bg-cyan-300 shadow-glow-cyan-sm border border-cyan-400/50',
+    'bg-obsidian-950 text-sand-50 font-medium hover:bg-obsidian-850 border border-obsidian-950 shadow-editorial',
+  accent:
+    'bg-lime-400 text-obsidian-950 font-semibold hover:bg-lime-500 border border-lime-500/60 shadow-lime-glow',
   secondary:
-    'bg-navy-800 text-slate-200 border border-navy-700/80 hover:bg-navy-750 hover:border-aviation-500/50 hover:text-white',
+    'bg-sand-100 text-obsidian-950 border border-obsidian-950/15 hover:bg-sand-200 hover:border-obsidian-950/25',
   outline:
-    'bg-transparent text-slate-300 border border-navy-600/70 hover:border-cyan-500/60 hover:text-cyan-300 hover:bg-cyan-500/5',
+    'bg-transparent text-obsidian-950 border border-obsidian-950/20 hover:border-obsidian-950 hover:bg-obsidian-950/5',
   ghost:
-    'bg-transparent text-slate-400 hover:text-slate-100 hover:bg-navy-800/60 border border-transparent',
+    'bg-transparent text-stone-600 hover:text-obsidian-950 hover:bg-sand-100/80 border border-transparent',
   danger:
-    'bg-crimson-950/70 text-crimson-200 border border-crimson-500/50 hover:bg-crimson-900 hover:border-crimson-400',
+    'bg-crimson-100 text-crimson-700 border border-crimson-500/30 hover:bg-crimson-500 hover:text-white',
   warning:
-    'bg-amber-950/60 text-amber-200 border border-amber-500/50 hover:bg-amber-900/80 hover:border-amber-400',
+    'bg-amber-100 text-amber-700 border border-amber-500/30 hover:bg-amber-500 hover:text-white',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  xs: 'h-6 px-2 text-2xs rounded-subtle gap-1 tracking-wider uppercase',
-  sm: 'h-8 px-3 text-xs rounded-panel gap-1.5 font-medium',
+  xs: 'h-6 px-2.5 text-2xs rounded-subtle gap-1 tracking-wider uppercase',
+  sm: 'h-8 px-3.5 text-xs rounded-panel gap-1.5 font-medium',
   md: 'h-9 px-4 text-sm rounded-panel gap-2 font-medium',
-  lg: 'h-11 px-5 text-base rounded-panel gap-2.5 font-semibold',
+  lg: 'h-11 px-6 text-sm rounded-panel gap-2.5 font-semibold tracking-tight',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -44,25 +48,65 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant = 'secondary',
       size = 'md',
       isLoading = false,
+      magnetic = false,
       leftIcon,
       rightIcon,
       children,
       className,
       disabled,
       fullWidth = false,
+      onMouseMove,
+      onMouseLeave,
       ...props
     },
     ref
   ) => {
     const isDisabled = disabled || isLoading;
+    const innerRef = useRef<HTMLButtonElement | null>(null);
+    const reducedMotion = useReducedMotion();
+
+    const setRefs = useCallback(
+      (node: HTMLButtonElement | null) => {
+        innerRef.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) ref.current = node;
+      },
+      [ref]
+    );
+
+    const handleMouseMove = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        onMouseMove?.(e);
+        if (!magnetic || isDisabled || reducedMotion || !innerRef.current) return;
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        const rect = innerRef.current.getBoundingClientRect();
+        const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.18;
+        const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.22;
+        innerRef.current.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
+      },
+      [magnetic, isDisabled, reducedMotion, onMouseMove]
+    );
+
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        onMouseLeave?.(e);
+        if (innerRef.current && magnetic) {
+          innerRef.current.style.transform = '';
+        }
+      },
+      [magnetic, onMouseLeave]
+    );
 
     return (
       <motion.button
-        ref={ref}
-        whileTap={isDisabled ? undefined : { scale: 0.98 }}
+        ref={setRefs}
+        whileTap={isDisabled ? undefined : { scale: 0.97 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
         disabled={isDisabled}
         className={cn(
-          'inline-flex items-center justify-center select-none font-sans transition-colors duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus-visible:ring-offset-1 focus-visible:ring-offset-navy-950 disabled:opacity-45 disabled:pointer-events-none disabled:cursor-not-allowed',
+          'group inline-flex items-center justify-center select-none font-sans transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50 disabled:opacity-45 disabled:pointer-events-none disabled:cursor-not-allowed',
           variantStyles[variant],
           sizeStyles[size],
           fullWidth && 'w-full',
@@ -76,7 +120,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           leftIcon && <span className="inline-flex shrink-0">{leftIcon}</span>
         )}
         {children && <span>{children}</span>}
-        {!isLoading && rightIcon && <span className="inline-flex shrink-0">{rightIcon}</span>}
+        {!isLoading && rightIcon && (
+          <span className="inline-flex shrink-0 transition-transform duration-200 group-hover:translate-x-1">
+            {rightIcon}
+          </span>
+        )}
       </motion.button>
     );
   }

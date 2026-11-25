@@ -35,7 +35,6 @@ export const InvestigationWorkspacePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState('all');
   const [highlightedEvidenceId, setHighlightedEvidenceId] = useState<string | null>(null);
 
-  // Split-screen workbench state: default open on large screens
   const [isAssistantOpen, setIsAssistantOpen] = useState(true);
   const [isAssistantExpanded, setIsAssistantExpanded] = useState(false);
 
@@ -74,8 +73,8 @@ export const InvestigationWorkspacePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="h-96 flex flex-col items-center justify-center text-slate-400 font-mono text-xs gap-3">
-        <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+      <div className="h-96 flex flex-col items-center justify-center text-stone-500 font-mono text-xs gap-3">
+        <Loader2 className="w-8 h-8 text-obsidian-950 animate-spin" />
         <span>Loading incident investigation record: {incidentId}...</span>
       </div>
     );
@@ -83,15 +82,15 @@ export const InvestigationWorkspacePage: React.FC = () => {
 
   if (!incident) {
     return (
-      <div className="max-w-xl mx-auto my-12 p-8 rounded-panel panel-surface border border-navy-800 text-center space-y-4">
-        <div className="w-12 h-12 rounded-full bg-navy-900 border border-crimson-500/40 text-crimson-400 mx-auto flex items-center justify-center">
+      <div className="max-w-xl mx-auto my-12 p-8 rounded-card panel-surface text-center space-y-4">
+        <div className="w-12 h-12 rounded-full bg-crimson-100 border border-crimson-500/30 text-crimson-600 mx-auto flex items-center justify-center">
           <ShieldAlert className="w-6 h-6" />
         </div>
-        <h2 className="font-heading text-lg font-semibold text-white">
+        <h2 className="font-heading text-lg font-bold text-obsidian-950">
           Incident Record Not Found
         </h2>
-        <p className="text-xs text-slate-400 font-mono leading-relaxed">
-          The requested investigation dossier <strong className="text-cyan-400">{incidentId}</strong> does not exist or has not yet been ingested into the repository.
+        <p className="text-xs text-stone-600 font-mono leading-relaxed">
+          The requested investigation dossier <strong className="text-obsidian-950">{incidentId}</strong> does not exist or has not yet been ingested into the repository.
         </p>
         <Button
           variant="primary"
@@ -138,29 +137,29 @@ export const InvestigationWorkspacePage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-[1720px] mx-auto space-y-5 pb-12">
-      {/* Top Section A: Incident Header & Executive Summary */}
+    <div className="max-w-[1640px] mx-auto space-y-6 pb-12">
+      {/* Top Section: Incident Header & Executive Summary */}
       <IncidentHeader incident={incident} />
 
-      {/* Workspace Section Navigation Bar & Assistant Dock Toggle */}
+      {/* Workspace Section Navigation Bar & Assistant Toggle */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-        <Tabs
-          tabs={workspaceTabs}
-          activeTab={activeSection}
-          onChange={(sec) => {
-            setActiveSection(sec);
-            if (incident) {
-              historyService.recordIncidentVisit({
-                incidentId: incident.id,
-                incidentTitle: incident.title,
-                section: sec,
-              });
-            }
-          }}
-          className="w-full sm:w-auto"
-        />
+        <div className="overflow-x-auto">
+          <Tabs
+            tabs={workspaceTabs}
+            activeTab={activeSection}
+            onChange={(sec) => {
+              setActiveSection(sec);
+              if (incident) {
+                historyService.recordIncidentVisit({
+                  incidentId: incident.id,
+                  incidentTitle: incident.title,
+                  section: sec,
+                });
+              }
+            }}
+          />
+        </div>
 
-        {/* Assistant Toggle Button */}
         <div className="flex items-center gap-2 self-end sm:self-auto">
           <Button
             variant={isAssistantOpen ? 'primary' : 'outline'}
@@ -176,19 +175,18 @@ export const InvestigationWorkspacePage: React.FC = () => {
               isAssistantOpen ? (
                 <PanelRightClose className="w-3.5 h-3.5" />
               ) : (
-                <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                <Bot className="w-3.5 h-3.5" />
               )
             }
           >
-            {isAssistantOpen ? 'Hide Assistant Dock' : 'Open AI Assistant Dock'}
+            {isAssistantOpen ? 'Hide Assistant' : 'Open Research Assistant'}
           </Button>
         </div>
       </div>
 
       {/* Main Dual-Panel Workspace Layout */}
       {isAssistantExpanded ? (
-        // Full Width Assistant Mode
-        <div className="h-[calc(100vh-180px)] min-h-[600px]">
+        <div className="h-[calc(100vh-190px)] min-h-[580px]">
           <AssistantChatPanel
             incidentId={incident.id}
             incidentTitle={incident.title}
@@ -199,65 +197,74 @@ export const InvestigationWorkspacePage: React.FC = () => {
           />
         </div>
       ) : (
-        // Standard Dual Workbench Layout
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Dossier Sections (Timeline, Aircraft, Evidence) */}
+          {/* Left Column: Dossier Sections */}
           <div
             className={
               isAssistantOpen
                 ? 'lg:col-span-7 xl:col-span-7 space-y-6'
-                : 'lg:col-span-12 space-y-6 max-w-7xl mx-auto'
+                : 'lg:col-span-12 space-y-6 max-w-7xl mx-auto w-full'
             }
           >
             <motion.div
               key={activeSection}
               initial="hidden"
               animate="visible"
-              variants={staggerContainer(0.06)}
-              className="space-y-6"
+              variants={staggerContainer(0.05)}
+              className="space-y-8"
             >
-              {/* ALL or TIMELINE Section */}
               {(activeSection === 'all' || activeSection === 'timeline') && (
                 <motion.section variants={slideUp} className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-navy-800 pb-2">
-                    <h2 className="font-heading text-base font-bold text-white flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-cyan-400" />
+                  <div className="flex items-center justify-between border-b border-obsidian-950/12 pb-2">
+                    <h2 className="font-heading text-lg font-bold text-obsidian-950 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-obsidian-950" />
                       Chronological Sequence of Events
                     </h2>
                     <Badge variant="mono" size="sm">
-                      SECTION B
+                      TIMELINE
                     </Badge>
                   </div>
-                  <IncidentTimeline events={incident.timeline} />
+                  <IncidentTimeline
+                    events={incident.timeline}
+                    onSelectEvent={(evt) => {
+                      const matchingEv = incident.evidence.find(
+                        (e) =>
+                          (evt.sourceReference?.section &&
+                            e.source.section === evt.sourceReference.section) ||
+                          e.provenance === evt.provenance
+                      );
+                      if (matchingEv) {
+                        setHighlightedEvidenceId(matchingEv.id);
+                      }
+                    }}
+                  />
                 </motion.section>
               )}
 
-              {/* ALL or AIRCRAFT Section */}
               {(activeSection === 'all' || activeSection === 'aircraft') && (
                 <motion.section variants={slideUp} className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-navy-800 pb-2">
-                    <h2 className="font-heading text-base font-bold text-white flex items-center gap-2">
-                      <Plane className="w-4 h-4 text-amber-400" />
+                  <div className="flex items-center justify-between border-b border-obsidian-950/12 pb-2">
+                    <h2 className="font-heading text-lg font-bold text-obsidian-950 flex items-center gap-2">
+                      <Plane className="w-4 h-4 text-obsidian-950" />
                       Aircraft Flight Information & Configuration
                     </h2>
                     <Badge variant="mono" size="sm">
-                      SECTION C
+                      AIRCRAFT
                     </Badge>
                   </div>
                   <AircraftInfoPanel aircraftList={incident.aircraft} />
                 </motion.section>
               )}
 
-              {/* ALL or EVIDENCE Section */}
               {(activeSection === 'all' || activeSection === 'evidence') && (
                 <motion.section variants={slideUp} className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-navy-800 pb-2">
-                    <h2 className="font-heading text-base font-bold text-white flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-emerald-400" />
+                  <div className="flex items-center justify-between border-b border-obsidian-950/12 pb-2">
+                    <h2 className="font-heading text-lg font-bold text-obsidian-950 flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-obsidian-950" />
                       Evidence Dossier & Official Findings
                     </h2>
                     <Badge variant="mono" size="sm">
-                      SECTION D
+                      EVIDENCE
                     </Badge>
                   </div>
                   <EvidenceFindingsPanel
@@ -267,7 +274,6 @@ export const InvestigationWorkspacePage: React.FC = () => {
                 </motion.section>
               )}
 
-              {/* Assistant Launch Entry Banner (when assistant dock is closed or in all view) */}
               {!isAssistantOpen && (
                 <motion.section variants={slideUp} className="space-y-3 pt-2">
                   <AssistantEntryPanel
@@ -279,9 +285,9 @@ export const InvestigationWorkspacePage: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Right Column: Dedicated Conversational Assistant Dock */}
+          {/* Right Column: Conversational Assistant Dock */}
           {isAssistantOpen && (
-            <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-4 h-[650px] lg:h-[calc(100vh-160px)] min-h-[550px]">
+            <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-4 h-[620px] lg:h-[calc(100vh-165px)] min-h-[520px]">
               <AssistantChatPanel
                 incidentId={incident.id}
                 incidentTitle={incident.title}

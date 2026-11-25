@@ -46,43 +46,42 @@ export const AirspaceCanvas2D: React.FC<AirspaceCanvas2DProps> = ({
   const getStatusColor = (status: AircraftTelemetry['status']) => {
     switch (status) {
       case 'TCAS_RA_CLIMB':
-        return '#00f0ff'; // Electric cyan
+        return '#C8F169'; // Electric lime
       case 'TCAS_RA_DESCEND':
-        return '#f59e0b'; // Amber
+        return '#FBBF24'; // Amber
       case 'TCAS_TA':
-        return '#fbbf24'; // Warning yellow
+        return '#F59E0B'; // Warning amber
       case 'IMPACT':
-        return '#ef4444'; // Red collision
+        return '#EF4444'; // Signal red
       case 'SAFE':
-        return '#10b981'; // Green safe
+        return '#34D399'; // Emerald safe
       case 'CONFLICT':
-        return '#dc2626'; // Red conflict
+        return '#DC2626'; // Red conflict
       default:
-        return '#60a5fa'; // Aviation blue
+        return '#F3F1EB'; // Bone white
     }
   };
 
   return (
     <div
       className={cn(
-        'relative w-full h-full min-h-[420px] rounded-panel bg-navy-950 border border-navy-800 overflow-hidden select-none bg-tactical-grid',
+        'relative w-full h-full min-h-[420px] rounded-panel bg-obsidian-950 border border-white/10 overflow-hidden select-none bg-dark-grid',
         className
       )}
     >
       {/* SVG Airspace Layer */}
       <svg className="w-full h-full absolute inset-0 pointer-events-none">
         <defs>
-          {/* Subtle Radar Range Rings Pattern */}
           <radialGradient id="radarRadial" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.04" />
-            <stop offset="100%" stopColor="#00f0ff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#C8F169" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#C8F169" stopOpacity="0" />
           </radialGradient>
         </defs>
 
-        {/* Central Tactical Range Circles */}
-        <circle cx="50%" cy="50%" r="42%" fill="url(#radarRadial)" stroke="rgba(31, 49, 82, 0.6)" strokeWidth="1" strokeDasharray="3 3" />
-        <circle cx="50%" cy="50%" r="28%" fill="none" stroke="rgba(31, 49, 82, 0.7)" strokeWidth="1" strokeDasharray="2 4" />
-        <circle cx="50%" cy="50%" r="14%" fill="none" stroke="rgba(0, 240, 255, 0.15)" strokeWidth="1" />
+        {/* Central Range Circles */}
+        <circle cx="50%" cy="50%" r="42%" fill="url(#radarRadial)" stroke="rgba(243, 241, 235, 0.1)" strokeWidth="1" strokeDasharray="3 3" />
+        <circle cx="50%" cy="50%" r="28%" fill="none" stroke="rgba(243, 241, 235, 0.14)" strokeWidth="1" strokeDasharray="2 4" />
+        <circle cx="50%" cy="50%" r="14%" fill="none" stroke="rgba(200, 241, 105, 0.22)" strokeWidth="1" />
 
         {/* Sector Crosshairs */}
         <line x1="50%" y1="0%" x2="50%" y2="100%" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" />

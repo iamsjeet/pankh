@@ -4,102 +4,155 @@
 
 @layer base {
   :root {
-    --bg-primary: #050811;
-    --bg-surface: #0d1525;
-    --bg-elevated: #121d33;
-    --border-subtle: rgba(255, 255, 255, 0.07);
-    --border-strong: rgba(31, 49, 82, 0.8);
-    --accent-cyan: #00f0ff;
-    --accent-aviation: #3b82f6;
-    --accent-amber: #f59e0b;
-    --accent-crimson: #ef4444;
+    --bg-primary: #F3F1EB;
+    --bg-surface: #FAF9F6;
+    --bg-muted: #E7E5DE;
+    --bg-dark: #17191B;
+    --bg-dark-elevated: #222529;
+    --text-primary: #17191B;
+    --text-secondary: #747570;
+    --border-hairline: rgba(23, 25, 27, 0.12);
+    --border-strong: rgba(23, 25, 27, 0.22);
+    --accent-lime: #C8F169;
+    --accent-lime-dark: #A6D94A;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
   }
 
   * {
-    border-color: rgba(31, 49, 82, 0.6);
+    border-color: rgba(23, 25, 27, 0.12);
   }
 
   html {
-    color-scheme: dark;
-    background-color: #050811;
+    color-scheme: light;
+    background-color: #F3F1EB;
+    color: #17191B;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: #050811;
-    color: #f1f5f9;
+    background-color: #F3F1EB;
+    color: #17191B;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.025em;
   }
 
-  /* Custom subtle scrollbars for dense data views */
+  /* Custom clean scrollbars */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #090e1a;
+    background: #E7E5DE;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #1f3152;
+    background: rgba(23, 25, 27, 0.22);
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #2b426d;
+    background: rgba(23, 25, 27, 0.38);
   }
 }
 
-/* Restrained Aerospace Glass Surface */
 @layer components {
   .panel-surface {
-    background-color: rgba(13, 21, 37, 0.82);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+    background-color: #FAF9F6;
+    border: 1px solid rgba(23, 25, 27, 0.12);
+    box-shadow: 0 1px 2px rgba(23, 25, 27, 0.04), 0 4px 16px -4px rgba(23, 25, 27, 0.05);
   }
 
   .panel-surface-elevated {
-    background-color: rgba(18, 29, 51, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.55);
+    background-color: #FFFFFF;
+    border: 1px solid rgba(23, 25, 27, 0.14);
+    box-shadow: 0 8px 28px -6px rgba(23, 25, 27, 0.09);
+  }
+
+  .panel-dark {
+    background-color: #17191B;
+    color: #F3F1EB;
+    border: 1px solid rgba(243, 241, 235, 0.12);
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.35);
   }
 
   .panel-interactive {
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .panel-interactive:hover {
-    border-color: rgba(0, 240, 255, 0.25);
-    box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.6), 0 0 12px -2px rgba(0, 240, 255, 0.08);
+    border-color: rgba(23, 25, 27, 0.28);
+    box-shadow: 0 14px 32px -8px rgba(23, 25, 27, 0.12);
   }
 
-  /* Restrained aerospace tactical coordinate grid */
+  /* Hairline architectural grid */
   .bg-tactical-grid {
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 32px 32px;
+    background-image:
+      linear-gradient(to right, rgba(23, 25, 27, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(23, 25, 27, 0.045) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
-  .bg-tactical-dots {
-    background-image: radial-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px);
-    background-size: 24px 24px;
+  .bg-dark-grid {
+    background-image:
+      linear-gradient(to right, rgba(243, 241, 235, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(243, 241, 235, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Cursor-following spotlight surface (CSS var driven, zero React re-renders) */
+  .spotlight-surface {
+    position: relative;
+  }
+
+  .spotlight-surface::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      480px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(200, 241, 105, 0.16),
+      transparent 45%
+    );
+    z-index: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .spotlight-surface:hover::before {
+      opacity: 1;
+    }
   }
 
   /* Telemetry Monospace helper */
   .font-telemetry {
     font-family: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
     font-variant-numeric: tabular-nums;
+  }
+
+  /* Experimental Editorial Typography Utilities */
+  .text-outline-light {
+    color: transparent;
+    -webkit-text-stroke: 1.25px rgba(243, 241, 235, 0.48);
+  }
+
+  .text-outline-dark {
+    color: transparent;
+    -webkit-text-stroke: 1.25px rgba(23, 25, 27, 0.35);
+  }
+
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
 }
 

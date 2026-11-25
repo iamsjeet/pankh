@@ -29,7 +29,6 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
       case 'Catastrophic':
         return 'critical';
       case 'Serious Incident':
-        return 'warning';
       case 'Loss of Separation':
         return 'warning';
       default:
@@ -40,8 +39,8 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
   return (
     <div className="space-y-4">
       {/* Top Nav Action & Breadcrumbs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-navy-700/60">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-obsidian-950/12">
+        <div className="flex items-center gap-3 min-w-0">
           <Button
             variant="outline"
             size="sm"
@@ -51,29 +50,21 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
             Incident Library
           </Button>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-            <span className="text-slate-600">/</span>
-            <span className="text-cyan-300 font-semibold">{incident.id}</span>
-            <span className="text-slate-600">/</span>
-            <span className="text-slate-300">Investigation Workspace</span>
+          <div className="flex items-center gap-2 text-xs font-mono text-stone-500 min-w-0">
+            <span>/</span>
+            <span className="text-obsidian-950 font-semibold truncate">{incident.id}</span>
+            <span className="hidden sm:inline">/</span>
+            <span className="hidden sm:inline truncate">Investigation Workspace</span>
           </div>
         </div>
 
-        {/* Workflow Progression & Simulation Lab Button */}
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 text-2xs font-mono">
-            <span className="text-slate-400">Workflow:</span>
-            <span className="px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
-              Phase 2: Investigation Workspace
-            </span>
-          </div>
-
+        {/* Simulation Launch Action */}
+        <div className="flex items-center gap-3 shrink-0">
           <Button
-            variant="primary"
+            variant="accent"
             size="sm"
             onClick={() => navigate(`/app/simulation/${incident.id}`)}
-            leftIcon={<Play className="w-3.5 h-3.5 fill-current text-white" />}
-            className="shadow-glow-cyan text-xs font-mono"
+            leftIcon={<Play className="w-3.5 h-3.5 fill-current" />}
           >
             Launch Interactive Simulation
           </Button>
@@ -81,11 +72,11 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
       </div>
 
       {/* Main Header Banner */}
-      <div className="rounded-panel panel-surface p-6 border border-cyan-500/30 relative overflow-hidden">
+      <div className="rounded-card panel-surface p-6 sm:p-7 relative overflow-hidden">
         {/* Top Badges Row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-xs font-semibold text-cyan-400 bg-navy-900 px-2.5 py-1 rounded border border-cyan-500/40">
+            <span className="font-mono text-xs font-semibold text-obsidian-950 bg-lime-400/65 px-2.5 py-1 rounded-subtle border border-lime-600/30">
               {incident.id}
             </span>
 
@@ -93,30 +84,30 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
               {incident.severity}
             </Badge>
 
-            <span className="text-2xs font-mono text-slate-300 bg-navy-900 border border-navy-700 px-2.5 py-1 rounded">
+            <span className="text-2xs font-mono text-stone-600 bg-sand-100 border border-obsidian-950/10 px-2.5 py-1 rounded-subtle">
               {incident.category}
             </span>
 
             {incident.provenance.verificationStatus === 'HISTORICAL_CURATED' ? (
               <Tooltip content={incident.provenance.disclaimer}>
-                <span className="px-2.5 py-1 rounded text-2xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                <span className="px-2.5 py-1 rounded-subtle text-2xs font-mono font-bold bg-emerald-100/80 text-emerald-700 border border-emerald-600/25 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                   HISTORICAL CURATED
                 </span>
               </Tooltip>
             ) : incident.provenance.isDemo ? (
               <Tooltip content={incident.provenance.disclaimer}>
-                <Badge variant="mono" size="sm">
+                <Badge variant="warning" size="sm">
                   DEMO BENCHMARK
                 </Badge>
               </Tooltip>
             ) : null}
           </div>
 
-          <div className="flex items-center gap-2 text-2xs font-mono text-slate-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="flex items-center gap-2 text-2xs font-mono text-stone-600">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
             <span title={incident.source.reportTitle}>
-              Source: <strong className="text-slate-200">{incident.source.organization}</strong>
+              Source: <strong className="text-obsidian-950">{incident.source.organization}</strong>
               {incident.source.reportDocumentId && ` (${incident.source.reportDocumentId})`}
             </span>
             {incident.source.url && (
@@ -124,7 +115,7 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
                 href={incident.source.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 ml-1 underline underline-offset-2"
+                className="inline-flex items-center gap-1 text-obsidian-950 font-semibold hover:underline decoration-lime-500 decoration-2 underline-offset-2 ml-1"
                 title="Open official primary investigation document"
               >
                 <ExternalLink className="w-3 h-3" />
@@ -135,68 +126,71 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
         </div>
 
         {/* Title and Subtitle */}
-        <h1 className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
+        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-obsidian-950 tracking-tight leading-tight">
           {incident.title}
         </h1>
         {incident.subtitle && (
-          <p className="text-xs sm:text-sm font-mono text-slate-300 mt-1.5 leading-relaxed">
+          <p className="text-xs sm:text-sm font-mono text-stone-500 mt-1.5 leading-relaxed">
             {incident.subtitle}
           </p>
         )}
 
         {/* Flight & Location Meta Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 mt-4 border-t border-navy-800/80 text-xs font-mono">
-          <div className="flex items-center gap-2 text-slate-300">
-            <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 mt-5 border-t border-obsidian-950/10 text-xs font-mono">
+          <div className="flex items-center gap-2 text-stone-600">
+            <Calendar className="w-4 h-4 text-obsidian-950 shrink-0" />
             <span>
-              Date: <strong className="text-white">{incident.date}</strong>
+              Date: <strong className="text-obsidian-950">{incident.date}</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-slate-300">
-            <MapPin className="w-4 h-4 text-aviation-400 shrink-0" />
+          <div className="flex items-center gap-2 text-stone-600">
+            <MapPin className="w-4 h-4 text-obsidian-950 shrink-0" />
             <span className="truncate" title={incident.location.name}>
-              Location: <strong className="text-white">{incident.location.name}</strong>
+              Location: <strong className="text-obsidian-950">{incident.location.name}</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-slate-300">
-            <Plane className="w-4 h-4 text-amber-400 shrink-0" />
+          <div className="flex items-center gap-2 text-stone-600">
+            <Plane className="w-4 h-4 text-obsidian-950 shrink-0" />
             <span className="truncate" title={incident.aircraft.map((a) => a.type).join(' & ')}>
-              Aircraft: <strong className="text-white">{incident.aircraft.map((a) => a.type).join(' & ')}</strong>
+              Aircraft:{' '}
+              <strong className="text-obsidian-950">
+                {incident.aircraft.map((a) => a.type).join(' & ')}
+              </strong>
             </span>
           </div>
         </div>
 
         {/* Executive Summary Hierarchy */}
         {incident.executiveSummary && (
-          <div className="mt-5 pt-4 border-t border-navy-800/80 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="p-3 rounded-panel bg-navy-900/70 border border-navy-800 space-y-1">
-              <span className="text-2xs font-mono uppercase tracking-wider text-cyan-400 flex items-center gap-1.5 font-semibold">
-                <Info className="w-3.5 h-3.5" />
+          <div className="mt-5 pt-5 border-t border-obsidian-950/10 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/10 space-y-1.5">
+              <span className="text-2xs font-mono uppercase tracking-wider text-obsidian-950 flex items-center gap-1.5 font-semibold">
+                <Info className="w-3.5 h-3.5 text-obsidian-950" />
                 Executive Synopsis
               </span>
-              <p className="text-slate-300 leading-relaxed text-2xs">
+              <p className="text-stone-600 leading-relaxed text-xs">
                 {incident.executiveSummary.overview}
               </p>
             </div>
 
-            <div className="p-3 rounded-panel bg-navy-900/70 border border-navy-800 space-y-1">
-              <span className="text-2xs font-mono uppercase tracking-wider text-amber-400 flex items-center gap-1.5 font-semibold">
-                <AlertTriangle className="w-3.5 h-3.5" />
+            <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/10 space-y-1.5">
+              <span className="text-2xs font-mono uppercase tracking-wider text-amber-700 flex items-center gap-1.5 font-semibold">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                 Core Safety Issue
               </span>
-              <p className="text-slate-300 leading-relaxed text-2xs">
+              <p className="text-stone-600 leading-relaxed text-xs">
                 {incident.executiveSummary.safetyIssue}
               </p>
             </div>
 
-            <div className="p-3 rounded-panel bg-navy-900/70 border border-navy-800 space-y-1">
-              <span className="text-2xs font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5 font-semibold">
-                <ShieldCheck className="w-3.5 h-3.5" />
+            <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/10 space-y-1.5">
+              <span className="text-2xs font-mono uppercase tracking-wider text-emerald-700 flex items-center gap-1.5 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                 Investigation Outcome
               </span>
-              <p className="text-slate-300 leading-relaxed text-2xs">
+              <p className="text-stone-600 leading-relaxed text-xs">
                 {incident.executiveSummary.outcome}
               </p>
             </div>

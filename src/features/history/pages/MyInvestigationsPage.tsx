@@ -108,18 +108,18 @@ export const MyInvestigationsPage: React.FC = () => {
 
             {/* Search Input */}
             <div className="relative w-full sm:w-72">
-              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Filter by ID or keyword..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-navy-900 border border-navy-700/80 rounded-md pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 font-mono"
+                className="w-full bg-sand-100 border border-obsidian-950/12 rounded-md pl-9 pr-3 py-1.5 text-xs text-obsidian-950 placeholder-slate-500 focus:outline-none focus:border-lime-600/35 font-mono"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-2xs text-slate-400 hover:text-white"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-2xs text-stone-500 hover:text-obsidian-950"
                 >
                   ✕
                 </button>
@@ -133,7 +133,7 @@ export const MyInvestigationsPage: React.FC = () => {
               {/* Simulations Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-heading font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                  <h2 className="text-sm font-heading font-bold uppercase tracking-wider text-obsidian-950 flex items-center gap-2">
                     <Plane className="w-4 h-4" />
                     Simulation Sessions ({filteredSimulations.length})
                   </h2>
@@ -142,7 +142,7 @@ export const MyInvestigationsPage: React.FC = () => {
               </div>
 
               {/* Incidents Section */}
-              <div className="space-y-4 pt-4 border-t border-navy-800">
+              <div className="space-y-4 pt-4 border-t border-obsidian-950/12">
                 <div className="flex items-center justify-between">
                   <h2 className="text-sm font-heading font-bold uppercase tracking-wider text-aviation-400 flex items-center gap-2">
                     <FileSearch className="w-4 h-4" />

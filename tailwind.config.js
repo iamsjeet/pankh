@@ -5,96 +5,128 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Deep midnight navy scale
-        navy: {
-          950: '#050811', // Deepest background / canvas
-          900: '#090e1a', // Base dashboard backdrop
-          850: '#0d1525', // Layer 1 panel surface
-          800: '#121d33', // Layer 2 elevated surface
-          750: '#172540', // Hover / selected state
-          700: '#1f3152', // Low-contrast borders & dividers
-          600: '#2b426d', // Interactive borders & subtle outlines
-          500: '#3e5b92',
-          400: '#6281be',
+        // Editorial Light-First Palette
+        sand: {
+          25: '#FAF9F6',  // Crisp paper card surface
+          50: '#F3F1EB',  // Primary light background
+          100: '#E7E5DE', // Muted surface
+          200: '#D6D3C9', // Subtle divider / hover
+          300: '#C0BCB0',
         },
-        // Electric Cyan (Primary Accent)
-        cyan: {
-          300: '#67e8f9',
-          400: '#22d3ee',
-          500: '#00f0ff', // Primary electric cyan
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#155e75',
-          900: '#164e63',
-          950: '#082f49',
+        obsidian: {
+          950: '#17191B', // Primary dark background & primary light-mode text
+          900: '#1C1F22',
+          850: '#222529', // Secondary dark surface
+          800: '#2B2F34',
+          700: '#3D4248',
         },
-        // Aviation Blue (Secondary Accent)
-        aviation: {
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e3a5f',
-          900: '#172554',
-          950: '#0b162c',
+        stone: {
+          400: '#9A9B95',
+          500: '#747570', // Secondary text
+          600: '#5A5B56',
+          700: '#42433F',
         },
-        // Restrained Amber (Warning)
+        lime: {
+          300: '#D9F68A',
+          400: '#C8F169', // Primary electric-lime accent
+          500: '#A6D94A', // Dark accent
+          600: '#85B832',
+          950: '#1C260B',
+        },
+        // Restrained Semantic Colors
         amber: {
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          900: '#78350f',
-          950: '#451a03',
+          100: '#FEF3C7',
+          300: '#FCD34D',
+          400: '#FBBF24',
+          500: '#D97706',
+          600: '#B45309',
+          700: '#92400E',
+          900: '#78350F',
+          950: '#451A03',
         },
-        // Tactical Crimson (Critical / Emergency / Incident)
         crimson: {
-          400: '#f87171',
-          500: '#ef4444',
-          600: '#dc2626',
-          700: '#b91c1c',
-          900: '#7f1d1d',
-          950: '#450a0a',
+          100: '#FEE2E2',
+          400: '#F87171',
+          500: '#DC2626',
+          600: '#B91C1C',
+          700: '#991B1B',
+          900: '#7F1D1D',
+          950: '#450A0A',
         },
-        // Nominal / Telemetry Green
         emerald: {
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-          950: '#064e3b',
+          100: '#DCFCE7',
+          400: '#34D399',
+          500: '#16A34A',
+          600: '#15803D',
+          700: '#166534',
+          950: '#052E16',
+        },
+        // Transitional neutral aliases for unmigrated modules (removed progressively in Phases C-F)
+        navy: {
+          950: '#17191B',
+          900: '#1C1F22',
+          850: '#222529',
+          800: '#2B2F34',
+          750: '#34393F',
+          700: '#3D4248',
+          600: '#5A5B56',
+          500: '#747570',
+          400: '#9A9B95',
+        },
+        cyan: {
+          300: '#D9F68A',
+          400: '#C8F169',
+          500: '#A6D94A',
+          600: '#85B832',
+          700: '#658F22',
+          800: '#496818',
+          900: '#2F4310',
+          950: '#1C260B',
+        },
+        aviation: {
+          300: '#9A9B95',
+          400: '#747570',
+          500: '#5A5B56',
+          600: '#42433F',
+          700: '#2B2F34',
+          800: '#222529',
+          900: '#1C1F22',
+          950: '#17191B',
         },
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         heading: ['Space Grotesk', 'sans-serif'],
+        serif: ['Instrument Serif', 'Georgia', 'serif'],
         mono: ['JetBrains Mono', 'Space Mono', 'ui-monospace', 'monospace'],
       },
       fontSize: {
-        '2xs': ['0.6875rem', { lineHeight: '0.9rem', letterSpacing: '0.04em' }],
+        '2xs': ['0.6875rem', { lineHeight: '0.95rem', letterSpacing: '0.04em' }],
         'tactical': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.05em' }],
       },
       boxShadow: {
-        'panel': '0 4px 20px -2px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.3)',
-        'panel-hover': '0 8px 30px -4px rgba(0, 0, 0, 0.6), 0 4px 10px -2px rgba(0, 240, 255, 0.08)',
-        'glow-cyan': '0 0 20px -3px rgba(0, 240, 255, 0.25)',
-        'glow-cyan-sm': '0 0 10px -2px rgba(0, 240, 255, 0.2)',
-        'glow-amber': '0 0 16px -2px rgba(245, 158, 11, 0.2)',
-        'glow-crimson': '0 0 16px -2px rgba(239, 68, 68, 0.2)',
+        'editorial': '0 1px 2px rgba(23, 25, 27, 0.04), 0 4px 16px -4px rgba(23, 25, 27, 0.06)',
+        'editorial-hover': '0 12px 32px -8px rgba(23, 25, 27, 0.12), 0 2px 6px -1px rgba(23, 25, 27, 0.06)',
+        'editorial-dark': '0 16px 40px -10px rgba(0, 0, 0, 0.45)',
+        'lime-glow': '0 0 0 1px rgba(166, 217, 74, 0.4), 0 8px 20px -6px rgba(200, 241, 105, 0.35)',
+        'panel': '0 1px 3px rgba(23, 25, 27, 0.05), 0 6px 20px -4px rgba(23, 25, 27, 0.07)',
+        'panel-hover': '0 12px 28px -6px rgba(23, 25, 27, 0.12)',
+        'glow-cyan': '0 0 0 1px rgba(200, 241, 105, 0.45)',
+        'glow-cyan-sm': '0 2px 10px -2px rgba(200, 241, 105, 0.25)',
+        'glow-amber': '0 2px 12px -2px rgba(217, 119, 6, 0.18)',
+        'glow-crimson': '0 2px 12px -2px rgba(220, 38, 38, 0.18)',
       },
       borderRadius: {
-        'panel': '8px',
-        'subtle': '5px',
+        'card': '14px',
+        'panel': '10px',
+        'subtle': '6px',
       },
       borderWidth: {
         'subtle': '1px',
       },
       animation: {
-        'radar-sweep': 'radarSweep 4s linear infinite',
+        'radar-sweep': 'radarSweep 6s linear infinite',
         'pulse-subtle': 'pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'scanline': 'scanline 8s linear infinite',
       },
       keyframes: {
         radarSweep: {
@@ -104,10 +136,6 @@ export default {
         pulseSubtle: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.45' },
-        },
-        scanline: {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(1000%)' },
         },
       },
     },

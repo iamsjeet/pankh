@@ -604,10 +604,10 @@ export const CURATED_INCIDENTS: Incident[] = [
       publishedYear: 1997,
     },
     provenance: {
-      isDemo: true,
-      verificationStatus: 'DEMO_BENCHMARK',
+      isDemo: false,
+      verificationStatus: 'HISTORICAL_CURATED',
       disclaimer:
-        'Curated candidate benchmark for terminal corridor altitude compliance and procedural separation research. Derived from the Lahoti Commission Investigation Report.',
+        'Curated historical research record derived from Government of India Court of Inquiry Report (Lahoti Commission, archived copy hosted on Skybrary).',
     },
     keyFactors: [
       'Unintentional altitude descent by inbound aircraft to FL140',

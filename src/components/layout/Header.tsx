@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import {
-  Bell,
-  Clock,
-  Radio,
-  SlidersHorizontal,
-} from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Clock, Menu, SlidersHorizontal } from 'lucide-react';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Badge } from '@/components/ui/Badge';
 import { Tooltip } from '@/components/ui/Tooltip';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  onOpenMobileNav?: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
   const [utcTime, setUtcTime] = useState('');
 
-  // Live UTC Aerospace Clock
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -26,17 +25,16 @@ export const Header: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Compute breadcrumb title based on path
   const getBreadcrumb = () => {
     const segments = location.pathname.split('/').filter(Boolean);
     if (segments.length === 0) return 'Landing';
     if (segments[0] === 'app') {
       const page = segments[1] || 'mission-control';
       if (page === 'investigations') {
-        if (segments[2]) {
-          return `Incident Library / ${segments[2]}`;
-        }
-        return 'Incident Library';
+        return segments[2] ? `Incident Library / ${segments[2]}` : 'Incident Library';
+      }
+      if (page === 'simulation') {
+        return segments[2] ? `Simulation / ${segments[2]}` : 'Simulation Lab';
       }
       return page
         .split('-')
@@ -46,63 +44,64 @@ export const Header: React.FC = () => {
     return segments[0].charAt(0).toUpperCase() + segments[0].slice(1);
   };
 
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' && searchValue.trim()) {
+      navigate('/app/investigations');
+    }
+  };
+
   return (
-    <header className="h-14 bg-navy-950/80 border-b border-navy-700/60 backdrop-blur-md px-4 flex items-center justify-between gap-4 shrink-0 z-20">
-      {/* Left: Breadcrumb & Context */}
+    <header className="h-14 bg-sand-25/90 border-b border-obsidian-950/10 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between gap-3 shrink-0 z-20">
+      {/* Left: Mobile Trigger + Breadcrumb */}
       <div className="flex items-center gap-3 min-w-0">
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-          <span className="text-slate-500 uppercase tracking-widest text-2xs">PANKH</span>
-          <span className="text-slate-600">/</span>
-          <span className="text-cyan-300 font-semibold tracking-wider">{getBreadcrumb()}</span>
+        <button
+          type="button"
+          onClick={onOpenMobileNav}
+          className="md:hidden p-1.5 rounded-subtle text-obsidian-950 hover:bg-sand-100 border border-obsidian-950/15"
+          aria-label="Open navigation menu"
+        >
+          <Menu className="w-4 h-4" />
+        </button>
+
+        <div className="flex items-center gap-2 text-xs font-mono text-stone-500 min-w-0">
+          <span className="uppercase tracking-widest text-2xs hidden sm:inline">PANKH</span>
+          <span className="text-stone-400 hidden sm:inline">/</span>
+          <span className="text-obsidian-950 font-semibold tracking-tight truncate">
+            {getBreadcrumb()}
+          </span>
         </div>
 
-        <div className="hidden lg:flex items-center">
+        <div className="hidden xl:flex items-center">
           <Badge variant="mono" size="sm">
-            FLIGHT RESEARCH
+            RESEARCH SANDBOX
           </Badge>
         </div>
       </div>
 
-      {/* Middle: Tactical Search */}
-      <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
+      {/* Middle: Search */}
+      <div className="hidden lg:flex items-center flex-1 max-w-sm mx-4" onKeyDown={handleSearchKeyDown}>
         <SearchBar
           value={searchValue}
           onChange={setSearchValue}
-          placeholder="Search incidents, aircraft codes, scenarios (⌘K)..."
+          placeholder="Quick jump to Incident Library..."
         />
       </div>
 
-      {/* Right: Live Telemetry, UTC Clock, Actions */}
-      <div className="flex items-center gap-3 shrink-0">
-        {/* UTC Clock */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-panel bg-navy-900 border border-navy-800 text-xs text-slate-300 font-telemetry">
-          <Clock className="w-3.5 h-3.5 text-cyan-400" />
+      {/* Right: UTC Clock & Settings */}
+      <div className="flex items-center gap-2.5 shrink-0">
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-panel bg-sand-100 border border-obsidian-950/10 text-xs text-obsidian-950 font-telemetry">
+          <Clock className="w-3.5 h-3.5 text-stone-500" />
           <span>{utcTime || '00:00:00 UTC'}</span>
         </div>
 
-        {/* System Status Indicator */}
-        <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-panel bg-navy-900/80 border border-navy-800 text-2xs font-mono text-emerald-400">
-          <Radio className="w-3 h-3 animate-pulse text-emerald-400" />
-          <span>TELEMETRY SYNCED</span>
-        </div>
-
-        {/* Quick Actions */}
-        <Tooltip content="Quick Settings">
+        <Tooltip content="Workspace Settings">
           <button
             type="button"
-            className="p-1.5 rounded-panel text-slate-400 hover:text-slate-100 hover:bg-navy-800 border border-transparent hover:border-navy-700 transition-colors"
+            onClick={() => navigate('/app/settings')}
+            className="p-2 rounded-panel text-stone-600 hover:text-obsidian-950 hover:bg-sand-100 border border-transparent hover:border-obsidian-950/15 transition-colors"
+            aria-label="Workspace Settings"
           >
             <SlidersHorizontal className="w-4 h-4" />
-          </button>
-        </Tooltip>
-
-        <Tooltip content="Alert Feed (0 Critical)">
-          <button
-            type="button"
-            className="p-1.5 rounded-panel text-slate-400 hover:text-slate-100 hover:bg-navy-800 border border-transparent hover:border-navy-700 transition-colors relative"
-          >
-            <Bell className="w-4 h-4" />
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 absolute top-1.5 right-1.5 shadow-glow-cyan-sm" />
           </button>
         </Tooltip>
       </div>

@@ -67,28 +67,28 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
     switch (c) {
       case 'SAFE_SEPARATION':
         return (
-          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5 shadow-glow-emerald">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-emerald-100/80 text-emerald-700 border border-emerald-500/40 flex items-center gap-1.5 shadow-glow-emerald">
+            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
             SAFE SEPARATION ACHIEVED
           </span>
         );
       case 'CATASTROPHIC_COLLISION':
         return (
-          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-crimson-950 text-crimson-300 border border-crimson-500/40 flex items-center gap-1.5 shadow-glow-crimson">
-            <Flame className="w-4 h-4 text-crimson-400" />
+          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-crimson-100/80 text-crimson-700 border border-crimson-500/40 flex items-center gap-1.5 shadow-glow-crimson">
+            <Flame className="w-4 h-4 text-crimson-600" />
             CATASTROPHIC COLLISION
           </span>
         );
       case 'NEAR_MID_AIR_COLLISION':
         return (
-          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-amber-950 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 shadow-glow-amber">
-            <AlertTriangle className="w-4 h-4 text-amber-400" />
+          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-amber-100/80 text-amber-700 border border-amber-500/40 flex items-center gap-1.5 shadow-glow-amber">
+            <AlertTriangle className="w-4 h-4 text-amber-600" />
             NEAR MID-AIR COLLISION
           </span>
         );
       default:
         return (
-          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-navy-800 text-slate-300 border border-navy-700 flex items-center gap-1.5">
+          <span className="px-3 py-1 rounded text-xs font-mono font-bold bg-sand-200/70 text-stone-600 border border-obsidian-950/12 flex items-center gap-1.5">
             UNEVALUATED RUN
           </span>
         );
@@ -99,19 +99,19 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
     switch (type) {
       case 'RECOMMENDED_STANDARD':
         return (
-          <span className="px-2 py-0.5 rounded text-2xs font-mono font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">
+          <span className="px-2 py-0.5 rounded text-2xs font-mono font-semibold bg-emerald-100/80 text-emerald-700 border border-emerald-500/30">
             STANDARD SAFETY PRACTICE
           </span>
         );
       case 'HISTORICAL_ACTION':
         return (
-          <span className="px-2 py-0.5 rounded text-2xs font-mono font-semibold bg-crimson-950/80 text-crimson-300 border border-crimson-500/30">
+          <span className="px-2 py-0.5 rounded text-2xs font-mono font-semibold bg-crimson-100/80 text-crimson-700 border border-crimson-500/30">
             HISTORICAL ACTION (ACCIDENT BASELINE)
           </span>
         );
       case 'TACTICAL_ALTERNATIVE':
         return (
-          <span className="px-2 py-0.5 rounded text-2xs font-mono font-semibold bg-cyan-950/80 text-cyan-300 border border-cyan-500/30">
+          <span className="px-2 py-0.5 rounded text-2xs font-mono font-semibold bg-lime-400/50 text-obsidian-950 border border-lime-600/35">
             TACTICAL HYPOTHETICAL ALTERNATIVE
           </span>
         );
@@ -133,7 +133,7 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-16">
       {/* 1. Header & Navigation Dossier */}
-      <div className="space-y-4 pb-4 border-b border-navy-700/60">
+      <div className="space-y-4 pb-4 border-b border-obsidian-950/12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Button
@@ -145,11 +145,11 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
               Investigation Dossier
             </Button>
 
-            <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+            <div className="flex items-center gap-2 text-xs font-mono text-stone-500">
               <span className="text-slate-600">/</span>
-              <span className="text-cyan-300 font-semibold">{scenario.id}</span>
+              <span className="text-obsidian-950 font-semibold">{scenario.id}</span>
               <span className="text-slate-600">/</span>
-              <span className="text-slate-300">Debrief & Outcome Analysis</span>
+              <span className="text-stone-600">Debrief & Outcome Analysis</span>
             </div>
           </div>
 
@@ -183,14 +183,14 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
         <div>
           <div className="flex items-center gap-2.5 mb-1">
-            <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-obsidian-950">
               Simulation Debrief & Outcome Analysis
             </h1>
             <Badge variant="accent" size="sm">
               PHASE 5 VERIFIED
             </Badge>
           </div>
-          <p className="text-xs text-slate-400 font-mono">
+          <p className="text-xs text-stone-500 font-mono">
             Deterministic safety analysis of pilot decision branches for scenario {scenario.id} ({scenario.title}).
           </p>
         </div>
@@ -198,74 +198,74 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
       {/* 2. Session Metadata & KPI Summary Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-panel bg-navy-900/80 border border-navy-800 space-y-1">
-          <span className="text-2xs font-mono text-slate-400 uppercase tracking-wider block">
+        <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/12 space-y-1">
+          <span className="text-2xs font-mono text-stone-500 uppercase tracking-wider block">
             Session Status
           </span>
           <div className="flex items-center gap-2 pt-0.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <strong className="text-sm font-semibold text-slate-200">
+            <strong className="text-sm font-semibold text-obsidian-950">
               Scenario Completed
             </strong>
           </div>
-          <span className="text-3xs font-mono text-slate-500 block">
+          <span className="text-3xs font-mono text-stone-500 block">
             Attempt ID: {attemptId ? attemptId.substring(0, 16) + '...' : 'AUTO-SAVED'}
           </span>
         </div>
 
-        <div className="p-4 rounded-panel bg-navy-900/80 border border-navy-800 space-y-1">
-          <span className="text-2xs font-mono text-slate-400 uppercase tracking-wider block">
+        <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/12 space-y-1">
+          <span className="text-2xs font-mono text-stone-500 uppercase tracking-wider block">
             Duration & Horizon
           </span>
-          <div className="flex items-center gap-1.5 pt-0.5 text-cyan-300 font-telemetry text-base font-bold">
-            <Clock className="w-4 h-4 text-cyan-400" />
+          <div className="flex items-center gap-1.5 pt-0.5 text-obsidian-950 font-telemetry text-base font-bold">
+            <Clock className="w-4 h-4 text-obsidian-950" />
             <span>00:{totalDuration < 10 ? '0' + totalDuration : totalDuration}</span>
           </div>
-          <span className="text-3xs font-mono text-slate-500 block">
+          <span className="text-3xs font-mono text-stone-500 block">
             Total scenario timeline elapsed
           </span>
         </div>
 
-        <div className="p-4 rounded-panel bg-navy-900/80 border border-navy-800 space-y-1">
-          <span className="text-2xs font-mono text-slate-400 uppercase tracking-wider block">
+        <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/12 space-y-1">
+          <span className="text-2xs font-mono text-stone-500 uppercase tracking-wider block">
             Decisions Evaluated
           </span>
-          <div className="flex items-center gap-1.5 pt-0.5 text-slate-200 font-telemetry text-base font-bold">
-            <span className="text-cyan-400">{decisionRecords.length || 1}</span>
-            <span className="text-slate-500">/</span>
+          <div className="flex items-center gap-1.5 pt-0.5 text-obsidian-950 font-telemetry text-base font-bold">
+            <span className="text-obsidian-950">{decisionRecords.length || 1}</span>
+            <span className="text-stone-500">/</span>
             <span>{scenario.checkpoints?.length || 1}</span>
           </div>
-          <span className="text-3xs font-mono text-slate-500 block">
+          <span className="text-3xs font-mono text-stone-500 block">
             Pilot checkpoints resolved
           </span>
         </div>
 
-        <div className="p-4 rounded-panel bg-navy-900/80 border border-navy-800 space-y-1">
-          <span className="text-2xs font-mono text-slate-400 uppercase tracking-wider block">
+        <div className="p-4 rounded-panel bg-sand-100/70 border border-obsidian-950/12 space-y-1">
+          <span className="text-2xs font-mono text-stone-500 uppercase tracking-wider block">
             Final Safety Classification
           </span>
           <div className="pt-0.5">
             {getClassificationBadge(outcome?.classification)}
           </div>
-          <span className="text-3xs font-mono text-slate-500 block pt-1">
+          <span className="text-3xs font-mono text-stone-500 block pt-1">
             Separation status at scenario termination
           </span>
         </div>
       </div>
 
       {/* 3. Primary Branch Outcome Dossier */}
-      <div className="rounded-panel panel-surface-elevated border border-cyan-500/30 p-6 space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-navy-800">
+      <div className="rounded-panel panel-surface-elevated border border-lime-600/35 p-6 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-obsidian-950/12">
           <div>
-            <span className="text-2xs font-mono uppercase text-slate-500 block">
+            <span className="text-2xs font-mono uppercase text-stone-500 block">
               Executed Decision Branch:
             </span>
             <div className="flex items-center gap-2">
-              <strong className="text-white font-heading text-lg">
+              <strong className="text-obsidian-950 font-heading text-lg">
                 {selectedBranch?.title || 'Default Trajectory'}
               </strong>
               {selectedOptionId && (
-                <span className="text-2xs font-mono text-cyan-400 bg-navy-900 px-2 py-0.5 rounded border border-cyan-500/30">
+                <span className="text-2xs font-mono text-obsidian-950 bg-sand-100 px-2 py-0.5 rounded border border-lime-600/35">
                   [{selectedOptionId}]
                 </span>
               )}
@@ -273,7 +273,7 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded text-3xs font-mono font-semibold bg-navy-800 text-slate-300 border border-navy-700">
+            <span className="px-2 py-0.5 rounded text-3xs font-mono font-semibold bg-sand-200/70 text-stone-600 border border-obsidian-950/12">
               PROVENANCE: {outcome?.isHistoricalBranch ? 'RECORDED HISTORICAL' : 'HYPOTHETICAL ALTERNATIVE'}
             </span>
           </div>
@@ -281,40 +281,40 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
         {/* Executive Summary */}
         <div className="space-y-2">
-          <h3 className="font-heading font-semibold text-sm text-white">
+          <h3 className="font-heading font-semibold text-sm text-obsidian-950">
             {outcome?.title}
           </h3>
-          <p className="text-xs text-slate-200 leading-relaxed bg-navy-900/70 p-4 rounded border border-navy-800">
+          <p className="text-xs text-obsidian-950 leading-relaxed bg-sand-100/70 p-4 rounded border border-obsidian-950/12">
             {outcome?.summary}
           </p>
         </div>
 
         {/* Minimum Separation Telemetry Metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-          <div className="p-3.5 rounded bg-navy-900 border border-navy-800 flex items-center justify-between">
+          <div className="p-3.5 rounded bg-sand-100 border border-obsidian-950/12 flex items-center justify-between">
             <div>
-              <span className="text-2xs text-slate-500 block mb-0.5">
+              <span className="text-2xs text-stone-500 block mb-0.5">
                 Minimum Lateral Separation:
               </span>
-              <strong className="text-cyan-300 text-base font-telemetry">
+              <strong className="text-obsidian-950 text-base font-telemetry">
                 {outcome?.minHorizontalSeparation || '0.8 NM'}
               </strong>
             </div>
-            <span className="text-2xs text-slate-400">
+            <span className="text-2xs text-stone-500">
               Standard: &gt; 5.0 NM
             </span>
           </div>
 
-          <div className="p-3.5 rounded bg-navy-900 border border-navy-800 flex items-center justify-between">
+          <div className="p-3.5 rounded bg-sand-100 border border-obsidian-950/12 flex items-center justify-between">
             <div>
-              <span className="text-2xs text-slate-500 block mb-0.5">
+              <span className="text-2xs text-stone-500 block mb-0.5">
                 Minimum Vertical Clearance:
               </span>
-              <strong className="text-emerald-400 text-base font-telemetry">
+              <strong className="text-emerald-700 text-base font-telemetry">
                 {outcome?.minVerticalSeparation || '2,400 FT'}
               </strong>
             </div>
-            <span className="text-2xs text-slate-400">
+            <span className="text-2xs text-stone-500">
               RVSM Standard: &gt; 1,000 FT
             </span>
           </div>
@@ -325,15 +325,15 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-heading font-bold text-white flex items-center gap-2">
-              <Radio className="w-5 h-5 text-cyan-400" />
+            <h2 className="text-lg font-heading font-bold text-obsidian-950 flex items-center gap-2">
+              <Radio className="w-5 h-5 text-obsidian-950" />
               Decision Analysis & Crew Interventions
             </h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <p className="text-xs text-stone-500 font-mono">
               Detailed breakdown of pilot checkpoints encountered and resulting airspace behaviors.
             </p>
           </div>
-          <span className="text-2xs font-mono text-slate-400 bg-navy-900 px-2.5 py-1 rounded border border-navy-800">
+          <span className="text-2xs font-mono text-stone-500 bg-sand-100 px-2.5 py-1 rounded border border-obsidian-950/12">
             {scenario.checkpoints?.length || 1} Checkpoint Defined
           </span>
         </div>
@@ -348,22 +348,22 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
           return (
             <div
               key={chk.id}
-              className="rounded-panel panel-surface border border-navy-700/80 overflow-hidden transition-all"
+              className="rounded-panel panel-surface border border-obsidian-950/12 overflow-hidden transition-all"
             >
               {/* Header */}
               <div
                 onClick={() => toggleDecisionExpand(chk.id)}
-                className="p-4 bg-navy-900/80 cursor-pointer flex items-center justify-between gap-4 hover:bg-navy-850 transition-colors"
+                className="p-4 bg-sand-100/70 cursor-pointer flex items-center justify-between gap-4 hover:bg-navy-850 transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <span className="px-2 py-1 rounded bg-cyan-950/80 text-cyan-300 font-mono text-2xs font-bold border border-cyan-500/30">
+                  <span className="px-2 py-1 rounded bg-lime-400/50 text-obsidian-950 font-mono text-2xs font-bold border border-lime-600/35">
                     {chk.timestampFormatted}
                   </span>
                   <div>
-                    <h3 className="font-heading font-semibold text-sm text-slate-100">
+                    <h3 className="font-heading font-semibold text-sm text-obsidian-950">
                       {chk.title}
                     </h3>
-                    <p className="text-2xs text-slate-400 font-mono">
+                    <p className="text-2xs text-stone-500 font-mono">
                       Role: {chk.userRole}
                     </p>
                   </div>
@@ -371,7 +371,7 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
                 <div className="flex items-center gap-3">
                   {getOptionTypeBadge(chosenOption.optionType)}
-                  <button className="text-slate-400 hover:text-slate-200 p-1">
+                  <button className="text-stone-500 hover:text-obsidian-950 p-1">
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </button>
                 </div>
@@ -379,40 +379,40 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
               {/* Expandable Body */}
               {isExpanded && (
-                <div className="p-5 space-y-4 border-t border-navy-800 bg-navy-950/40">
+                <div className="p-5 space-y-4 border-t border-obsidian-950/12 bg-sand-100">
                   {/* Situation Brief */}
-                  <div className="p-3.5 rounded bg-navy-900/60 border border-navy-800 space-y-1 text-xs">
-                    <span className="text-2xs font-mono uppercase text-slate-400 font-bold block">
+                  <div className="p-3.5 rounded bg-sand-100/70 border border-obsidian-950/12 space-y-1 text-xs">
+                    <span className="text-2xs font-mono uppercase text-stone-500 font-bold block">
                       Encounter Situation Briefing:
                     </span>
-                    <p className="text-slate-300 leading-relaxed font-mono text-2xs">
+                    <p className="text-stone-600 leading-relaxed font-mono text-2xs">
                       {chk.situationBrief}
                     </p>
                   </div>
 
                   {/* Selected Action Card */}
-                  <div className="p-4 rounded-panel bg-navy-900 border border-cyan-500/40 space-y-2">
+                  <div className="p-4 rounded-panel bg-sand-100 border border-lime-600/35 space-y-2">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-2xs font-mono uppercase text-cyan-400 font-bold">
+                      <span className="text-2xs font-mono uppercase text-obsidian-950 font-bold">
                         User Selected Action:
                       </span>
                       {getOptionTypeBadge(chosenOption.optionType)}
                     </div>
-                    <strong className="text-slate-100 text-sm block">
+                    <strong className="text-obsidian-950 text-sm block">
                       {chosenOption.title}
                     </strong>
-                    <p className="text-xs text-slate-300 leading-relaxed">
+                    <p className="text-xs text-stone-600 leading-relaxed">
                       {chosenOption.description}
                     </p>
-                    <div className="p-2.5 rounded bg-navy-950 border border-navy-800 text-2xs font-mono text-slate-300">
-                      <strong className="text-slate-400">Immediate Consequence: </strong>
+                    <div className="p-2.5 rounded bg-sand-100 border border-obsidian-950/12 text-2xs font-mono text-stone-600">
+                      <strong className="text-stone-500">Immediate Consequence: </strong>
                       {chosenOption.consequenceSummary}
                     </div>
                   </div>
 
                   {/* Other Available Checkpoint Options */}
                   <div className="space-y-2">
-                    <span className="text-2xs font-mono uppercase text-slate-400 font-bold block">
+                    <span className="text-2xs font-mono uppercase text-stone-500 font-bold block">
                       Alternate Options in this Checkpoint:
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -421,15 +421,15 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
                         .map((alt) => (
                           <div
                             key={alt.id}
-                            className="p-3 rounded bg-navy-900/40 border border-navy-800/80 text-xs space-y-1.5"
+                            className="p-3 rounded bg-sand-100/70 border border-obsidian-950/12 text-xs space-y-1.5"
                           >
                             <div className="flex items-center justify-between gap-1">
-                              <span className="font-semibold text-slate-200 text-2xs">
+                              <span className="font-semibold text-obsidian-950 text-2xs">
                                 {alt.title}
                               </span>
                               {getOptionTypeBadge(alt.optionType)}
                             </div>
-                            <p className="text-3xs text-slate-400 leading-relaxed">
+                            <p className="text-3xs text-stone-500 leading-relaxed">
                               {alt.consequenceSummary}
                             </p>
                           </div>
@@ -448,99 +448,99 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-heading font-bold text-white flex items-center gap-2">
+              <h2 className="text-lg font-heading font-bold text-obsidian-950 flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-aviation-400" />
                 Outcome Comparison with Baseline Reference
               </h2>
-              <p className="text-xs text-slate-400 font-mono">
+              <p className="text-xs text-stone-500 font-mono">
                 Cross-comparison between your executed decision path and the recorded historical baseline.
               </p>
             </div>
-            <span className="text-2xs font-mono text-slate-400 bg-navy-900 px-2.5 py-1 rounded border border-navy-800">
+            <span className="text-2xs font-mono text-stone-500 bg-sand-100 px-2.5 py-1 rounded border border-obsidian-950/12">
               Reference: {referenceBranch.title}
             </span>
           </div>
 
-          <div className="rounded-panel panel-surface border border-navy-700/80 overflow-hidden">
+          <div className="rounded-panel panel-surface border border-obsidian-950/12 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr className="border-b border-navy-800 bg-navy-900/90 text-slate-400 text-2xs uppercase">
+                  <tr className="border-b border-obsidian-950/12 bg-sand-100/70 text-stone-500 text-2xs uppercase">
                     <th className="py-3 px-4">Evaluation Parameter</th>
-                    <th className="py-3 px-4 text-cyan-300">
+                    <th className="py-3 px-4 text-obsidian-950">
                       User Selected Path ({selectedBranch?.title.split(':')[0] || 'Selected'})
                     </th>
-                    <th className="py-3 px-4 text-crimson-300">
+                    <th className="py-3 px-4 text-crimson-700">
                       Historical Baseline (ATC Descent)
                     </th>
-                    <th className="py-3 px-4 text-slate-400">Safety Margin Differential</th>
+                    <th className="py-3 px-4 text-stone-500">Safety Margin Differential</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-navy-800/60">
-                  <tr className="hover:bg-navy-900/40">
-                    <td className="py-3 px-4 text-slate-300 font-semibold">
+                  <tr className="hover:bg-sand-100/70">
+                    <td className="py-3 px-4 text-stone-600 font-semibold">
                       Vertical Clearance
                     </td>
-                    <td className="py-3 px-4 text-emerald-400 font-bold">
+                    <td className="py-3 px-4 text-emerald-700 font-bold">
                       {outcome?.minVerticalSeparation || '2,400 FT'}
                     </td>
-                    <td className="py-3 px-4 text-crimson-400 font-bold">
+                    <td className="py-3 px-4 text-crimson-600 font-bold">
                       0 FT (Collision FL348)
                     </td>
-                    <td className="py-3 px-4 text-slate-300">
+                    <td className="py-3 px-4 text-stone-600">
                       +2,400 FT Vertical Divergence
                     </td>
                   </tr>
 
-                  <tr className="hover:bg-navy-900/40">
-                    <td className="py-3 px-4 text-slate-300 font-semibold">
+                  <tr className="hover:bg-sand-100/70">
+                    <td className="py-3 px-4 text-stone-600 font-semibold">
                       Lateral Distance
                     </td>
-                    <td className="py-3 px-4 text-slate-200">
+                    <td className="py-3 px-4 text-obsidian-950">
                       {outcome?.minHorizontalSeparation || '0.8 NM'}
                     </td>
-                    <td className="py-3 px-4 text-crimson-300">
+                    <td className="py-3 px-4 text-crimson-700">
                       0.0 NM (Intersected)
                     </td>
-                    <td className="py-3 px-4 text-slate-300">
+                    <td className="py-3 px-4 text-stone-600">
                       Non-intersecting path
                     </td>
                   </tr>
 
-                  <tr className="hover:bg-navy-900/40">
-                    <td className="py-3 px-4 text-slate-300 font-semibold">
+                  <tr className="hover:bg-sand-100/70">
+                    <td className="py-3 px-4 text-stone-600 font-semibold">
                       Time to Resolution
                     </td>
-                    <td className="py-3 px-4 text-cyan-300">
+                    <td className="py-3 px-4 text-obsidian-950">
                       ~75 seconds (Clear of Conflict)
                     </td>
-                    <td className="py-3 px-4 text-amber-400">
+                    <td className="py-3 px-4 text-amber-600">
                       86 seconds (Impact)
                     </td>
-                    <td className="py-3 px-4 text-slate-300">
+                    <td className="py-3 px-4 text-stone-600">
                       Resolved 11s prior to intersection
                     </td>
                   </tr>
 
-                  <tr className="hover:bg-navy-900/40">
-                    <td className="py-3 px-4 text-slate-300 font-semibold">
+                  <tr className="hover:bg-sand-100/70">
+                    <td className="py-3 px-4 text-stone-600 font-semibold">
                       TCAS Rule Adherence
                     </td>
-                    <td className="py-3 px-4 text-emerald-400">
+                    <td className="py-3 px-4 text-emerald-700">
                       {selectedBranch?.id === 'BRANCH_TCAS_CLIMB'
                         ? 'Strict Compliance (ICAO Annex 2)'
                         : 'Alternative Avoidance'}
                     </td>
-                    <td className="py-3 px-4 text-crimson-400">
+                    <td className="py-3 px-4 text-crimson-600">
                       Direct Contradiction of TCAS RA
                     </td>
-                    <td className="py-3 px-4 text-slate-300">
+                    <td className="py-3 px-4 text-stone-600">
                       ICAO standards updated worldwide
                     </td>
                   </tr>
 
-                  <tr className="hover:bg-navy-900/40">
-                    <td className="py-3 px-4 text-slate-300 font-semibold">
+                  <tr className="hover:bg-sand-100/70">
+                    <td className="py-3 px-4 text-stone-600 font-semibold">
                       Final Classification
                     </td>
                     <td className="py-3 px-4">
@@ -549,7 +549,7 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
                     <td className="py-3 px-4">
                       {getClassificationBadge(referenceBranch.outcome.classification)}
                     </td>
-                    <td className="py-3 px-4 text-slate-400 text-2xs">
+                    <td className="py-3 px-4 text-stone-500 text-2xs">
                       Catastrophic risk eliminated
                     </td>
                   </tr>
@@ -559,8 +559,8 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
             {/* Qualitative Synthesis */}
             {outcome?.comparisonWithReference && (
-              <div className="p-4 bg-navy-900/70 border-t border-navy-800 text-xs text-slate-300 space-y-1 font-mono">
-                <span className="text-2xs text-cyan-400 font-bold uppercase block">
+              <div className="p-4 bg-sand-100/70 border-t border-obsidian-950/12 text-xs text-stone-600 space-y-1 font-mono">
+                <span className="text-2xs text-obsidian-950 font-bold uppercase block">
                   Analytical Conclusion:
                 </span>
                 <p className="leading-relaxed text-2xs">
@@ -576,11 +576,11 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-heading font-bold text-white flex items-center gap-2">
-              <Clock className="w-5 h-5 text-slate-400" />
+            <h2 className="text-lg font-heading font-bold text-obsidian-950 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-stone-500" />
               Chronological Session Events ({displayedEvents.length})
             </h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <p className="text-xs text-stone-500 font-mono">
               Recorded sequence of radar triggers, automated alerts, and pilot actions.
             </p>
           </div>
@@ -588,31 +588,31 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
             variant="ghost"
             size="sm"
             onClick={() => setShowAllEvents(!showAllEvents)}
-            className="text-xs font-mono text-cyan-300"
+            className="text-xs font-mono text-obsidian-950"
           >
             {showAllEvents ? 'Show Key Alerts Only' : `Show All Events (${events.length})`}
           </Button>
         </div>
 
-        <div className="rounded-panel panel-surface border border-navy-850 p-4 space-y-3 max-h-72 overflow-y-auto font-mono text-xs">
+        <div className="rounded-panel panel-surface border border-obsidian-950/12 p-4 space-y-3 max-h-72 overflow-y-auto font-mono text-xs">
           {displayedEvents.map((evt, idx) => (
             <div
               key={evt.id || idx}
-              className="flex items-start gap-3 p-2.5 rounded bg-navy-900/60 border border-navy-800/80 hover:border-cyan-500/30 transition-colors"
+              className="flex items-start gap-3 p-2.5 rounded bg-sand-100/70 border border-obsidian-950/12 hover:border-lime-600/35 transition-colors"
             >
-              <span className="text-2xs text-cyan-400 font-bold shrink-0 mt-0.5">
+              <span className="text-2xs text-obsidian-950 font-bold shrink-0 mt-0.5">
                 {evt.timestampFormatted}
               </span>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <span className="font-semibold text-slate-200 text-xs truncate">
+                  <span className="font-semibold text-obsidian-950 text-xs truncate">
                     {evt.title}
                   </span>
-                  <span className="text-3xs text-slate-500 uppercase px-1.5 py-0.5 rounded bg-navy-950 border border-navy-800">
+                  <span className="text-3xs text-stone-500 uppercase px-1.5 py-0.5 rounded bg-sand-100 border border-obsidian-950/12">
                     {evt.provenance}
                   </span>
                 </div>
-                <p className="text-2xs text-slate-400 leading-relaxed">
+                <p className="text-2xs text-stone-500 leading-relaxed">
                   {evt.description}
                 </p>
               </div>
@@ -623,15 +623,15 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
 
       {/* 7. Learning Summary & Educational Takeaways */}
       {outcome?.learningPoints && (
-        <div className="rounded-panel panel-surface-elevated border border-cyan-500/30 p-6 space-y-4">
+        <div className="rounded-panel panel-surface-elevated border border-lime-600/35 p-6 space-y-4">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-cyan-400" />
-            <h2 className="text-base font-heading font-bold text-white">
+            <BookOpen className="w-5 h-5 text-obsidian-950" />
+            <h2 className="text-base font-heading font-bold text-obsidian-950">
               Aviation Safety & System Learning Summary
             </h2>
           </div>
 
-          <p className="text-xs text-slate-300 font-mono leading-relaxed">
+          <p className="text-xs text-stone-600 font-mono leading-relaxed">
             The Überlingen mid-air collision directly caused global regulatory reform in international air traffic control and avionics integration. The primary insights derived from this investigation include:
           </p>
 
@@ -639,13 +639,13 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
             {outcome.learningPoints.map((pt, idx) => (
               <div
                 key={idx}
-                className="p-3.5 rounded-panel bg-navy-900/80 border border-navy-800 space-y-1.5"
+                className="p-3.5 rounded-panel bg-sand-100/70 border border-obsidian-950/12 space-y-1.5"
               >
-                <div className="flex items-center gap-1.5 text-2xs font-mono font-bold text-cyan-400">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <div className="flex items-center gap-1.5 text-2xs font-mono font-bold text-obsidian-950">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-obsidian-950 shrink-0" />
                   <span>Key Takeaway #{idx + 1}</span>
                 </div>
-                <p className="text-2xs text-slate-300 font-mono leading-relaxed">
+                <p className="text-2xs text-stone-600 font-mono leading-relaxed">
                   {pt}
                 </p>
               </div>
@@ -653,8 +653,8 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
           </div>
 
           {/* Research & Provenance Notice */}
-          <div className="mt-4 p-3 rounded bg-navy-950 border border-navy-800 text-3xs font-mono text-slate-500 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
+          <div className="mt-4 p-3 rounded bg-sand-100 border border-obsidian-950/12 text-3xs font-mono text-stone-500 flex items-center gap-2">
+            <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
             <span>
               DATA PROVENANCE: This debrief synthesizes factual findings from the German Federal Bureau of Aircraft Accident Investigation (BFU AX001-1-2/02) and predefined simulation branches for academic research.
             </span>
@@ -663,7 +663,7 @@ export const SimulationDebriefView: React.FC<SimulationDebriefViewProps> = ({
       )}
 
       {/* 8. Bottom Navigation Footer */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-navy-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-obsidian-950/12">
         <div className="flex items-center gap-3">
           <Button
             variant="outline"

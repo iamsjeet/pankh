@@ -48,17 +48,17 @@ export const DesignSystemPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-navy-700/60">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-obsidian-950/12">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <h1 className="font-heading text-2xl font-bold tracking-tight text-white">
+            <h1 className="font-heading text-2xl font-bold tracking-tight text-obsidian-950">
               PANKH Design System
             </h1>
             <Badge variant="accent" size="sm">
               SPEC v1.0
             </Badge>
           </div>
-          <p className="text-xs text-slate-400 font-mono tracking-wide">
+          <p className="text-xs text-stone-500 font-mono tracking-wide">
             Precision aerospace tokens, components, typography and motion primitives.
           </p>
         </div>
@@ -104,7 +104,7 @@ export const DesignSystemPage: React.FC = () => {
             <div className="space-y-6">
               {/* Variants */}
               <div>
-                <h4 className="text-2xs font-mono uppercase tracking-wider text-slate-400 mb-3">
+                <h4 className="text-2xs font-mono uppercase tracking-wider text-stone-500 mb-3">
                   1. Color Variants
                 </h4>
                 <div className="flex flex-wrap items-center gap-3">
@@ -129,7 +129,7 @@ export const DesignSystemPage: React.FC = () => {
 
               {/* Sizes */}
               <div>
-                <h4 className="text-2xs font-mono uppercase tracking-wider text-slate-400 mb-3">
+                <h4 className="text-2xs font-mono uppercase tracking-wider text-stone-500 mb-3">
                   2. Sizing Scale
                 </h4>
                 <div className="flex flex-wrap items-center gap-3">
@@ -142,7 +142,7 @@ export const DesignSystemPage: React.FC = () => {
 
               {/* Interactive Loading and Tooltips */}
               <div>
-                <h4 className="text-2xs font-mono uppercase tracking-wider text-slate-400 mb-3">
+                <h4 className="text-2xs font-mono uppercase tracking-wider text-stone-500 mb-3">
                   3. Loading, Tooltips & Disabled States
                 </h4>
                 <div className="flex flex-wrap items-center gap-3">
@@ -192,7 +192,7 @@ export const DesignSystemPage: React.FC = () => {
               </div>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <span className="text-2xs font-mono text-slate-400">Small Variant:</span>
+                <span className="text-2xs font-mono text-stone-500">Small Variant:</span>
                 <Badge variant="nominal" size="sm" dot>Nominal</Badge>
                 <Badge variant="active" size="sm" dot>Active</Badge>
                 <Badge variant="warning" size="sm" dot>Warning</Badge>
@@ -205,7 +205,7 @@ export const DesignSystemPage: React.FC = () => {
           <Panel title="Form Controls & Inputs" subtitle="AEROSPACE MONOSPACE AND COMMAND INPUTS">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-2xs font-mono uppercase text-slate-400 mb-1">
+                <label className="block text-2xs font-mono uppercase text-stone-500 mb-1">
                   Flight Call-sign (Mono Input)
                 </label>
                 <Input
@@ -218,7 +218,7 @@ export const DesignSystemPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-2xs font-mono uppercase text-slate-400 mb-1">
+                <label className="block text-2xs font-mono uppercase text-stone-500 mb-1">
                   Airspace Sector
                 </label>
                 <Select
@@ -234,7 +234,7 @@ export const DesignSystemPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-2xs font-mono uppercase text-slate-400 mb-1">
+                <label className="block text-2xs font-mono uppercase text-stone-500 mb-1">
                   Command Search Bar
                 </label>
                 <SearchBar
@@ -254,22 +254,22 @@ export const DesignSystemPage: React.FC = () => {
           <Panel title="Aviation Intelligence Color System" subtitle="PALETTE MATRIX & CONTRAST RATIOS">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Midnight Navy Scale */}
-              <div className="p-4 rounded-panel bg-navy-900 border border-navy-700/80 space-y-2">
-                <span className="text-xs font-heading font-semibold text-white">Midnight Navy (Backgrounds)</span>
+              <div className="p-4 rounded-panel bg-sand-100 border border-obsidian-950/12 space-y-2">
+                <span className="text-xs font-heading font-semibold text-obsidian-950">Midnight Navy (Backgrounds)</span>
                 <div className="space-y-1.5 pt-2 text-2xs font-mono">
-                  <div className="flex items-center justify-between p-1.5 rounded bg-navy-950 border border-navy-800">
+                  <div className="flex items-center justify-between p-1.5 rounded bg-sand-100 border border-obsidian-950/12">
                     <span>Abyss (Canvas Ground)</span>
                     <span>#050811</span>
                   </div>
-                  <div className="flex items-center justify-between p-1.5 rounded bg-navy-900 border border-navy-800">
+                  <div className="flex items-center justify-between p-1.5 rounded bg-sand-100 border border-obsidian-950/12">
                     <span>Base Shell</span>
                     <span>#090E1A</span>
                   </div>
-                  <div className="flex items-center justify-between p-1.5 rounded bg-navy-850 border border-navy-700">
+                  <div className="flex items-center justify-between p-1.5 rounded bg-navy-850 border border-obsidian-950/12">
                     <span>Panel Surface</span>
                     <span>#0D1525</span>
                   </div>
-                  <div className="flex items-center justify-between p-1.5 rounded bg-navy-800 border border-navy-700">
+                  <div className="flex items-center justify-between p-1.5 rounded bg-sand-200/70 border border-obsidian-950/12">
                     <span>Elevated Surface</span>
                     <span>#121D33</span>
                   </div>
@@ -277,8 +277,8 @@ export const DesignSystemPage: React.FC = () => {
               </div>
 
               {/* Electric Cyan Accent */}
-              <div className="p-4 rounded-panel bg-navy-900 border border-navy-700/80 space-y-2">
-                <span className="text-xs font-heading font-semibold text-cyan-300">Electric Cyan (Primary Accent)</span>
+              <div className="p-4 rounded-panel bg-sand-100 border border-obsidian-950/12 space-y-2">
+                <span className="text-xs font-heading font-semibold text-obsidian-950">Electric Cyan (Primary Accent)</span>
                 <div className="space-y-1.5 pt-2 text-2xs font-mono">
                   <div className="p-2 rounded bg-cyan-500 text-navy-950 font-bold flex justify-between">
                     <span>Primary Cyan</span>
@@ -288,7 +288,7 @@ export const DesignSystemPage: React.FC = () => {
                     <span>Cyan 400</span>
                     <span>#22D3EE</span>
                   </div>
-                  <div className="p-2 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30 flex justify-between">
+                  <div className="p-2 rounded bg-lime-400/50 text-obsidian-950 border border-lime-600/35 flex justify-between">
                     <span>Cyan Glow/Subtle</span>
                     <span>rgba(0,240,255,0.1)</span>
                   </div>
@@ -296,14 +296,14 @@ export const DesignSystemPage: React.FC = () => {
               </div>
 
               {/* Aviation Blue */}
-              <div className="p-4 rounded-panel bg-navy-900 border border-navy-700/80 space-y-2">
+              <div className="p-4 rounded-panel bg-sand-100 border border-obsidian-950/12 space-y-2">
                 <span className="text-xs font-heading font-semibold text-aviation-300">Aviation Blue (Secondary)</span>
                 <div className="space-y-1.5 pt-2 text-2xs font-mono">
-                  <div className="p-2 rounded bg-aviation-500 text-white font-semibold flex justify-between">
+                  <div className="p-2 rounded bg-aviation-500 text-obsidian-950 font-semibold flex justify-between">
                     <span>Aviation 500</span>
                     <span>#3B82F6</span>
                   </div>
-                  <div className="p-2 rounded bg-aviation-700 text-slate-100 flex justify-between">
+                  <div className="p-2 rounded bg-aviation-700 text-obsidian-950 flex justify-between">
                     <span>Aviation Deep</span>
                     <span>#1D4ED8</span>
                   </div>
@@ -315,14 +315,14 @@ export const DesignSystemPage: React.FC = () => {
               </div>
 
               {/* Restrained Amber & Critical Crimson */}
-              <div className="p-4 rounded-panel bg-navy-900 border border-navy-700/80 space-y-2">
-                <span className="text-xs font-heading font-semibold text-amber-300">Warning & Critical</span>
+              <div className="p-4 rounded-panel bg-sand-100 border border-obsidian-950/12 space-y-2">
+                <span className="text-xs font-heading font-semibold text-amber-700">Warning & Critical</span>
                 <div className="space-y-1.5 pt-2 text-2xs font-mono">
                   <div className="p-2 rounded bg-amber-500 text-navy-950 font-bold flex justify-between">
                     <span>Caution Amber</span>
                     <span>#F59E0B</span>
                   </div>
-                  <div className="p-2 rounded bg-crimson-600 text-white font-bold flex justify-between">
+                  <div className="p-2 rounded bg-crimson-600 text-obsidian-950 font-bold flex justify-between">
                     <span>Critical Alert</span>
                     <span>#DC2626</span>
                   </div>
@@ -338,28 +338,28 @@ export const DesignSystemPage: React.FC = () => {
           {/* Typography Scale */}
           <Panel title="Typography & Font Hierarchy" subtitle="SPACE GROTESK + INTER + JETBRAINS MONO">
             <div className="space-y-4">
-              <div className="p-4 rounded bg-navy-900 border border-navy-800">
-                <span className="text-2xs font-mono text-cyan-400">Heading 1 • Space Grotesk Bold</span>
-                <h1 className="font-heading text-3xl font-bold text-white mt-1">
+              <div className="p-4 rounded bg-sand-100 border border-obsidian-950/12">
+                <span className="text-2xs font-mono text-obsidian-950">Heading 1 • Space Grotesk Bold</span>
+                <h1 className="font-heading text-3xl font-bold text-obsidian-950 mt-1">
                   Airspace Incident Replay & Safety Simulation
                 </h1>
               </div>
-              <div className="p-4 rounded bg-navy-900 border border-navy-800">
-                <span className="text-2xs font-mono text-cyan-400">Heading 2 • Space Grotesk SemiBold</span>
-                <h2 className="font-heading text-xl font-semibold text-slate-200 mt-1">
+              <div className="p-4 rounded bg-sand-100 border border-obsidian-950/12">
+                <span className="text-2xs font-mono text-obsidian-950">Heading 2 • Space Grotesk SemiBold</span>
+                <h2 className="font-heading text-xl font-semibold text-obsidian-950 mt-1">
                   Trajectory Conflict Analysis & Loss of Separation Matrix
                 </h2>
               </div>
-              <div className="p-4 rounded bg-navy-900 border border-navy-800">
-                <span className="text-2xs font-mono text-cyan-400">Interface Body • Inter Regular</span>
-                <p className="font-sans text-sm text-slate-300 mt-1 leading-relaxed">
+              <div className="p-4 rounded bg-sand-100 border border-obsidian-950/12">
+                <span className="text-2xs font-mono text-obsidian-950">Interface Body • Inter Regular</span>
+                <p className="font-sans text-sm text-stone-600 mt-1 leading-relaxed">
                   The primary collision avoidance advisory was synthesized based on flight recorder telemetry.
                   Altitude deviation of 450 feet was detected under gust turbulence conditions at waypoint KARMA.
                 </p>
               </div>
-              <div className="p-4 rounded bg-navy-900 border border-navy-800">
-                <span className="text-2xs font-mono text-cyan-400">Telemetry Data • JetBrains Mono</span>
-                <p className="font-telemetry text-xs text-cyan-300 mt-1">
+              <div className="p-4 rounded bg-sand-100 border border-obsidian-950/12">
+                <span className="text-2xs font-mono text-obsidian-950">Telemetry Data • JetBrains Mono</span>
+                <p className="font-telemetry text-xs text-obsidian-950 mt-1">
                   LAT: 28°34'07"N | LON: 077°06'44"E | ALT: FL340 (34,000 FT) | MACH: 0.81 | HDG: 247°
                 </p>
               </div>
@@ -377,7 +377,7 @@ export const DesignSystemPage: React.FC = () => {
               value="1,428"
               unit="Reports"
               delta={{ value: '+12%', trend: 'up', label: 'vs Q3' }}
-              icon={<Database className="w-4 h-4 text-cyan-400" />}
+              icon={<Database className="w-4 h-4 text-obsidian-950" />}
               status="cyan"
               subtext="NTSB, AAIB, DGCA archives"
               interactive
@@ -388,7 +388,7 @@ export const DesignSystemPage: React.FC = () => {
               value="0.042"
               unit="Loss/h"
               delta={{ value: '-8.4%', trend: 'down', label: 'improved' }}
-              icon={<ShieldAlert className="w-4 h-4 text-emerald-400" />}
+              icon={<ShieldAlert className="w-4 h-4 text-emerald-700" />}
               status="nominal"
               subtext="Monte Carlo 10,000 runs"
               interactive
@@ -399,7 +399,7 @@ export const DesignSystemPage: React.FC = () => {
               value="3"
               unit="Active"
               delta={{ value: '+1', trend: 'up', label: 'critical' }}
-              icon={<Flame className="w-4 h-4 text-crimson-400" />}
+              icon={<Flame className="w-4 h-4 text-crimson-600" />}
               status="critical"
               subtext="Separation < 2.5 nm"
               interactive
@@ -410,7 +410,7 @@ export const DesignSystemPage: React.FC = () => {
               value="148"
               unit="ms"
               delta={{ value: '0.0%', trend: 'neutral', label: 'steady' }}
-              icon={<Activity className="w-4 h-4 text-amber-400" />}
+              icon={<Activity className="w-4 h-4 text-amber-600" />}
               status="warning"
               subtext="RL model response time"
               interactive
@@ -430,7 +430,7 @@ export const DesignSystemPage: React.FC = () => {
               }
               footerSlot="Used for secondary charts, logs, incident listing rows and sidebar widgets."
             >
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-stone-600 leading-relaxed">
                 Layered panels provide clean visual grouping without distracting high-contrast card borders.
                 Glassmorphism is restrained to 12px blur, ensuring zero lag on integrated Intel GPUs.
               </p>
@@ -448,7 +448,7 @@ export const DesignSystemPage: React.FC = () => {
               }
               footerSlot="Used for modal dialogues, floating control panels and active inspection inspectors."
             >
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-stone-600 leading-relaxed">
                 Higher elevation surface for foreground widgets, scenario inspectors and simulation execution controls.
               </p>
             </Panel>
@@ -464,14 +464,14 @@ export const DesignSystemPage: React.FC = () => {
             subtitle="MOTION FOR REACT EASE CURVES & SYSTEM ACCESSIBILITY"
           >
             <div className="space-y-6">
-              <div className="p-4 rounded-panel bg-navy-900 border border-navy-800 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-panel bg-sand-100 border border-obsidian-950/12 flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <h4 className="font-semibold text-white mb-1">Accessibility First</h4>
-                  <p className="text-slate-300 leading-relaxed">
+                  <h4 className="font-semibold text-obsidian-950 mb-1">Accessibility First</h4>
+                  <p className="text-stone-600 leading-relaxed">
                     Animations automatically adapt if the user has enabled "Reduce Motion" in Windows Settings.
                     All transform/slide transitions collapse to instant or fast opacity fades via our{' '}
-                    <code className="text-cyan-400 font-mono">useReducedMotion</code> hook.
+                    <code className="text-obsidian-950 font-mono">useReducedMotion</code> hook.
                   </p>
                 </div>
               </div>
@@ -479,36 +479,36 @@ export const DesignSystemPage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <motion.div
                   whileHover={{ y: -4 }}
-                  className="p-4 rounded-panel bg-navy-850 border border-navy-700/80 hover:border-cyan-500/50 cursor-pointer transition-colors"
+                  className="p-4 rounded-panel bg-navy-850 border border-obsidian-950/12 hover:border-lime-600/35 cursor-pointer transition-colors"
                 >
-                  <h5 className="font-heading font-semibold text-sm text-cyan-300 mb-1">
+                  <h5 className="font-heading font-semibold text-sm text-obsidian-950 mb-1">
                     Hover Lift
                   </h5>
-                  <p className="text-2xs text-slate-400">
+                  <p className="text-2xs text-stone-500">
                     Smooth 200ms cubic-bezier transition on card surfaces.
                   </p>
                 </motion.div>
 
-                <div className="p-4 rounded-panel bg-navy-850 border border-navy-700/80 relative overflow-hidden">
+                <div className="p-4 rounded-panel bg-navy-850 border border-obsidian-950/12 relative overflow-hidden">
                   <div className="flex items-center justify-between mb-2">
-                    <h5 className="font-heading font-semibold text-sm text-emerald-300">
+                    <h5 className="font-heading font-semibold text-sm text-emerald-700">
                       Radar Pulse
                     </h5>
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                   </div>
-                  <p className="text-2xs text-slate-400">
+                  <p className="text-2xs text-stone-500">
                     Subtle periodic beacon pulse for live telemetry nodes.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-panel bg-navy-850 border border-navy-700/80 relative overflow-hidden">
+                <div className="p-4 rounded-panel bg-navy-850 border border-obsidian-950/12 relative overflow-hidden">
                   <div className="flex items-center justify-between mb-2">
-                    <h5 className="font-heading font-semibold text-sm text-amber-300">
+                    <h5 className="font-heading font-semibold text-sm text-amber-700">
                       Stagger Fade
                     </h5>
-                    <ArrowUpRight className="w-4 h-4 text-amber-400" />
+                    <ArrowUpRight className="w-4 h-4 text-amber-600" />
                   </div>
-                  <p className="text-2xs text-slate-400">
+                  <p className="text-2xs text-stone-500">
                     Calculated staggered cascade (50ms per item) for dense datasets.
                   </p>
                 </div>
